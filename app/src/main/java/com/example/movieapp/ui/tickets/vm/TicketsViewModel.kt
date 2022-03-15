@@ -1,4 +1,4 @@
-package com.example.movieapp.ui.tickets
+package com.example.movieapp.ui.tickets.vm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
