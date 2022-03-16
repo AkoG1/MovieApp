@@ -14,4 +14,7 @@ object NetworkClient {
     val searchedItemsApiService : SearchedItemsApiService =
         provideGson().baseUrl(BASE_URL).build().create(SearchedItemsApiService::class.java)
 
+    val movieDetailsApiService : MovieDetailsApiService =
+        provideGson().baseUrl(BASE_URL).build().create(MovieDetailsApiService::class.java)
+
 }

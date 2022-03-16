@@ -10,7 +10,7 @@ data class SearchedItemsModel(
     val search: List<Search>?,
     @SerializedName("totalResults")
     val totalResults: String?
-){
+) {
     data class Search(
         @SerializedName("imdbID")
         val imdbID: String?,

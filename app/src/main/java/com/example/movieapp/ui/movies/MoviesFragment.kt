@@ -1,6 +1,7 @@
 package com.example.movieapp.ui.movies
 
 import androidx.core.widget.addTextChangedListener
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.databinding.FragmentMoviesBinding
 import com.example.movieapp.ui.base.BaseFragment
@@ -25,8 +26,12 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
         binding.swipeRefresh.setOnRefreshListener {
             val lastSearchedText = binding.searchBar.text.toString()
             viewModel.swipeRefresh(lastSearchedText)
-            binding.swipeRefresh.isRefreshing = false
         }
+    }
+
+    private fun onMovieClick(id: String) {
+        val action = MoviesFragmentDirections.actionNavigationHomeToMovieDetailsFragment(id)
+        findNavController().navigate(action)
     }
 
     private fun initSearchBar() {
@@ -37,7 +42,7 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
 
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = SearchedMoviesAdapter()
+        adapter = SearchedMoviesAdapter(::onMovieClick)
         binding.recyclerView.adapter = adapter
     }
 
