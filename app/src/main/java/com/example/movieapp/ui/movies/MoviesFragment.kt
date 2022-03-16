@@ -36,7 +36,10 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
 
     private fun initSearchBar() {
         binding.searchBar.addTextChangedListener {
-            requestMovies(it.toString())
+            if (it.toString().isNotEmpty())
+                requestMovies(it.toString())
+            else
+                adapter.clearData()
         }
     }
 

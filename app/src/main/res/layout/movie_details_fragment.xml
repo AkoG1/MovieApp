@@ -181,7 +181,7 @@
             android:id="@+id/cast"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:maxHeight="30dp"
+            android:maxHeight="50dp"
             app:layout_constraintStart_toEndOf="@id/guideline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/castHeader"
