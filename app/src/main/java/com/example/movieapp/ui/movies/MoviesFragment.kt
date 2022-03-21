@@ -59,7 +59,7 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
             when (it) {
                 is Resource.Success -> {
                     binding.swipeRefresh.isRefreshing = true
-                    it.data.search?.let { it1 -> adapter.setData(it1) }
+                    adapter.setData(it.data)
                     binding.swipeRefresh.isRefreshing = false
                 }
                 is Resource.Error -> {

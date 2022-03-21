@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="150dp"
     android:layout_marginTop="20dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/coverIV"
         android:layout_width="80dp"
         android:layout_height="0dp"
+        android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline1"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,30 +23,76 @@
         android:textColor="@color/black"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/coverIV"
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/calendarIcon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="9dp"
-        android:src="@drawable/ic_calendar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/coverIV"
-        app:layout_constraintStart_toStartOf="@id/guideline1" />
+        android:id="@+id/starIcon"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_star"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/titleTV" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/yearTV"
+        android:id="@+id/imdbRating"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="16dp"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/mulish_regular"
+        android:gravity="center"
         android:textColor="@color/grey"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/starIcon"
+        app:layout_constraintTop_toBottomOf="@id/titleTV" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/mulish_regular"
+        android:gravity="center"
+        android:text="@string/imdb"
+        android:textColor="@color/grey"
+        app:layout_constraintStart_toEndOf="@id/imdbRating"
+        app:layout_constraintTop_toBottomOf="@id/titleTV"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/genreTV"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/custom_blue_background"
+        android:fontFamily="@font/mulish_regular"
+        android:paddingHorizontal="15dp"
+        android:textColor="#88A4E8"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/starIcon" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/runtimeIcon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_runtime"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/calendarIcon" />
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/genreTV" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/runtimeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginStart="5dp"
+        android:fontFamily="@font/mulish_regular"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/runtimeIcon"
+        app:layout_constraintTop_toBottomOf="@id/genreTV" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"

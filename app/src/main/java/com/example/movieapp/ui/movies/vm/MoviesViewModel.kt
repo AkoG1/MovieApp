@@ -4,15 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieapp.model.SearchedItemsModel
+import com.example.movieapp.model.MovieDetailsModel
 import com.example.movieapp.repository.Repository
 import com.example.movieapp.utils.Resource
 import kotlinx.coroutines.launch
 
 class MoviesViewModel(private val repository: Repository) : ViewModel() {
 
-    private val _searchedMovies = MutableLiveData<Resource<SearchedItemsModel>>(Resource.Idle)
-    val searchedMovies: LiveData<Resource<SearchedItemsModel>> get() = _searchedMovies
+    private val _searchedMovies = MutableLiveData<Resource<MutableList<MovieDetailsModel>>>(Resource.Idle)
+    val searchedMovies: LiveData<Resource<MutableList<MovieDetailsModel>>> get() = _searchedMovies
 
     fun getSearchedMovies(searchedText: String) {
         viewModelScope.launch {
