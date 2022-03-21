@@ -20,6 +20,7 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
         swipeRefreshListener()
         initSearchBar()
         initRecyclerView()
+        observe()
     }
 
     private fun swipeRefreshListener() {
@@ -39,7 +40,7 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
             if (it.toString().isNotEmpty())
                 requestMovies(it.toString())
             else
-                adapter.clearData()
+                viewModel.clearLiveData()
         }
     }
 
@@ -51,21 +52,24 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
 
     private fun requestMovies(searchedText: String) {
         viewModel.getSearchedMovies(searchedText = searchedText)
-        observe()
     }
 
     private fun observe() {
         viewModel.searchedMovies.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
-                    binding.swipeRefresh.isRefreshing = true
-                    adapter.setData(it.data)
-                    binding.swipeRefresh.isRefreshing = false
+                    with(binding) {
+                        swipeRefresh.isRefreshing = true
+                        adapter.setData(it.data)
+                        swipeRefresh.isRefreshing = false
+                    }
                 }
                 is Resource.Error -> {
-                    binding.swipeRefresh.isRefreshing = true
-                    it.message?.let { it1 -> makeToastMessage(it1) }
-                    binding.swipeRefresh.isRefreshing = false
+                    with(binding) {
+                        swipeRefresh.isRefreshing = true
+                        it.message?.let { it1 -> makeToastMessage(it1) }
+                        swipeRefresh.isRefreshing = false
+                    }
                 }
                 is Resource.Loading -> {
                     binding.swipeRefresh.isRefreshing = true

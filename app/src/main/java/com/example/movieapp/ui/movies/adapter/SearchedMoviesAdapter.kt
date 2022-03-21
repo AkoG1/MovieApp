@@ -1,7 +1,9 @@
 package com.example.movieapp.ui.movies.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.databinding.MoviesRecyclerItemBinding
 import com.example.movieapp.extensions.setImage
@@ -21,9 +23,28 @@ class SearchedMoviesAdapter(private val onMovieClick: (id: String) -> Unit) :
                 coverIV.setImage(model.poster)
                 runtimeTV.text = model.runtime
                 imdbRating.text = model.imdbRating
-                genreTV.text = model.genre
                 itemView.setOnClickListener {
                     model.imdbID?.let { it1 -> onMovieClick.invoke(it1) }
+                }
+                if (!model.genre.isNullOrEmpty()) {
+                    val genre = model.genre.split(",").map { it.trim() }
+                    Log.d("genreSize", "onBind: ${genre.size}")
+                    when (genre.size) {
+                        0 -> {}
+                        1 -> genreTV.text = genre[0]
+                        2 -> {
+                            genreTV.text = genre[0]
+                            genre2TV.isVisible = true
+                            genre2TV.text = genre[1]
+                        }
+                        3 -> {
+                            genreTV.text = genre[0]
+                            genre2TV.isVisible = true
+                            genre2TV.text = genre[1]
+                            genre3TV.isVisible = true
+                            genre3TV.text = genre[2]
+                        }
+                    }
                 }
             }
         }

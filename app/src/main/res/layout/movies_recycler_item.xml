@@ -2,18 +2,26 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="130dp"
     android:layout_marginTop="20dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/coverIV"
-        android:layout_width="80dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/coverCV"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline1"
+        app:cardCornerRadius="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/coverIV"
+            android:layout_width="85dp"
+            android:layout_height="match_parent"
+            android:scaleType="center" />
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/titleTV"
@@ -24,7 +32,7 @@
         android:textSize="17sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/coverIV"
+        app:layout_constraintStart_toEndOf="@id/coverCV"
         app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,14 +72,42 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/genreTV"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/custom_blue_background"
-        android:fontFamily="@font/mulish_regular"
-        android:paddingHorizontal="15dp"
+        android:paddingHorizontal="5dp"
         android:textColor="#88A4E8"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/starIcon" />
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/imdbRating" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/genre2TV"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/custom_blue_background"
+        android:paddingHorizontal="5dp"
+        android:textColor="#88A4E8"
+        android:visibility="invisible"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/genreTV"
+        app:layout_constraintTop_toBottomOf="@id/imdbRating" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/genre3TV"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/custom_blue_background"
+        android:paddingHorizontal="5dp"
+        android:textColor="#88A4E8"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toEndOf="@id/genre2TV"
+        app:layout_constraintTop_toBottomOf="@id/imdbRating" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/runtimeIcon"

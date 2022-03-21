@@ -24,4 +24,8 @@ class MoviesViewModel(private val repository: Repository) : ViewModel() {
     fun swipeRefresh(lastText: String) {
         getSearchedMovies(lastText)
     }
+
+    fun clearLiveData() {
+        _searchedMovies.value = Resource.Idle
+    }
 }
