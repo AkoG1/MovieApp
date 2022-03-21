@@ -1,5 +1,7 @@
 package com.example.movieapp.ui.movieDetails
 
+import android.util.Log
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
 import com.example.movieapp.databinding.MovieDetailsFragmentBinding
 import com.example.movieapp.extensions.setImage
@@ -32,7 +34,6 @@ class MovieDetailsFragment :
                     with(binding) {
                         titleTV.text = it.data.title
                         imdbRating.text = it.data.imdbRating
-                        genreTV.text = it.data.genre
                         lengthTextView.text = it.data.runtime
                         languageTextView.text = it.data.language
                         ratingTextView.text = it.data.rated
@@ -40,6 +41,26 @@ class MovieDetailsFragment :
                         cast.text = it.data.actors
                         coverIV.setImage(it.data.poster)
                         swipeRefresh.isRefreshing = false
+                        if (!it.data.genre.isNullOrEmpty()) {
+                            val genre = it.data.genre.split(",").map { it.trim() }
+                            Log.d("genreSize", "onBind: ${genre.size}")
+                            when (genre.size) {
+                                0 -> {}
+                                1 -> genreTV.text = genre[0]
+                                2 -> {
+                                    genreTV.text = genre[0]
+                                    genre2TV.isVisible = true
+                                    genre2TV.text = genre[1]
+                                }
+                                3 -> {
+                                    genreTV.text = genre[0]
+                                    genre2TV.isVisible = true
+                                    genre2TV.text = genre[1]
+                                    genre3TV.isVisible = true
+                                    genre3TV.text = genre[2]
+                                }
+                            }
+                        }
                     }
                 }
                 is Resource.Error -> {
