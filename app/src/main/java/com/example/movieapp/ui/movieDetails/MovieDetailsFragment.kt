@@ -2,6 +2,7 @@ package com.example.movieapp.ui.movieDetails
 
 import android.util.Log
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.movieapp.databinding.MovieDetailsFragmentBinding
 import com.example.movieapp.extensions.setImage
@@ -20,7 +21,13 @@ class MovieDetailsFragment :
     override fun init() {
         getMovieDetails()
         observe()
-        swipeRefreshListener()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun getMovieDetails() {
@@ -40,10 +47,8 @@ class MovieDetailsFragment :
                         description.text = it.data.plot
                         cast.text = it.data.actors
                         coverIV.setImage(it.data.poster)
-                        swipeRefresh.isRefreshing = false
                         if (!it.data.genre.isNullOrEmpty()) {
                             val genre = it.data.genre.split(",").map { it.trim() }
-                            Log.d("genreSize", "onBind: ${genre.size}")
                             when (genre.size) {
                                 0 -> {}
                                 1 -> genreTV.text = genre[0]
@@ -61,25 +66,17 @@ class MovieDetailsFragment :
                                 }
                             }
                         }
+                        progressBar.isVisible = false
                     }
                 }
                 is Resource.Error -> {
                     makeToastMessage(it.message!!)
-                    binding.swipeRefresh.isRefreshing = false
+                    binding.progressBar.isVisible = false
                 }
                 is Resource.Loading -> {
-                    binding.swipeRefresh.isRefreshing = true
-                }
-                is Resource.Idle -> {
-                    binding.swipeRefresh.isRefreshing = true
+                    binding.progressBar.isVisible = true
                 }
             }
-        }
-    }
-
-    private fun swipeRefreshListener() {
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.swipeRefreshListener(safeArgs.id)
         }
     }
 }
