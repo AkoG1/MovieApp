@@ -40,6 +40,9 @@ android {
 }
 
 dependencies {
+    //flexbox layout
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 

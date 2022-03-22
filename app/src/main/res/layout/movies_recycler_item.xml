@@ -27,6 +27,7 @@
         android:id="@+id/titleTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:maxLines="2"
         android:fontFamily="@font/mulish_regular"
         android:textColor="@color/black"
         android:textSize="17sp"
@@ -69,45 +70,54 @@
         app:layout_constraintStart_toEndOf="@id/imdbRating"
         app:layout_constraintTop_toBottomOf="@id/titleTV"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/genreTV"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/flexbox"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/starIcon"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="10dp"
-        android:background="@drawable/custom_blue_background"
-        android:paddingHorizontal="5dp"
-        android:textColor="#88A4E8"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/imdbRating" />
+        android:layout_marginEnd="30dp"
+        app:flexDirection="row"
+        app:justifyContent="space_between"
+        android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/genre2TV"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/custom_blue_background"
-        android:paddingHorizontal="5dp"
-        android:textColor="#88A4E8"
-        android:visibility="invisible"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@id/genreTV"
-        app:layout_constraintTop_toBottomOf="@id/imdbRating" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/genreTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_blue_background"
+            android:paddingHorizontal="5dp"
+            android:textColor="#88A4E8"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@id/imdbRating" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/genre3TV"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/custom_blue_background"
-        android:paddingHorizontal="5dp"
-        android:textColor="#88A4E8"
-        android:textSize="18sp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@id/genre2TV"
-        app:layout_constraintTop_toBottomOf="@id/imdbRating" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/genre2TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_blue_background"
+            android:paddingHorizontal="5dp"
+            android:visibility="invisible"
+            android:textColor="#88A4E8"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/genreTV"
+            app:layout_constraintTop_toBottomOf="@id/imdbRating" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/genre3TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_blue_background"
+            android:paddingHorizontal="5dp"
+            android:visibility="invisible"
+            android:textColor="#88A4E8"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/genre2TV"
+            app:layout_constraintTop_toBottomOf="@id/imdbRating" />
+
+    </com.google.android.flexbox.FlexboxLayout>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/runtimeIcon"
@@ -116,7 +126,7 @@
         android:src="@drawable/ic_runtime"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintTop_toBottomOf="@id/genreTV" />
+        app:layout_constraintTop_toBottomOf="@id/flexbox" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/runtimeTV"
@@ -128,7 +138,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/runtimeIcon"
-        app:layout_constraintTop_toBottomOf="@id/genreTV" />
+        app:layout_constraintTop_toBottomOf="@id/flexbox" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
