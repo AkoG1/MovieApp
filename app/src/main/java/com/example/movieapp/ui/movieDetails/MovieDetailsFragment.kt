@@ -20,7 +20,6 @@ class MovieDetailsFragment :
     private val safeArgs: MovieDetailsFragmentArgs by navArgs()
 
     override fun init() {
-
         getMovieDetails()
         observe()
         initListeners()
@@ -34,6 +33,10 @@ class MovieDetailsFragment :
 
     private fun getMovieDetails() {
         viewModel.getMovieDetails(id = safeArgs.id)
+    }
+
+    private fun getActorsDetails(name: String) {
+        viewModel.getActorsDetails(name = name)
     }
 
     private fun observe() {
