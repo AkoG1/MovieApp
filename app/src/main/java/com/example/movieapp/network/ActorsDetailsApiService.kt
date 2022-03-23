@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface ActorsDetailsApiService {
 
-    @GET("t/p/original/")
+    @GET("/3/search/person")
     suspend fun getActorsDetails(
         @Query("api_key") apikey: String,
         @Query("query") name: String

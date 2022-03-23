@@ -31,9 +31,4 @@ class MovieDetailsViewModel(private val repository: Repository) : ViewModel() {
             _actorsDetails.value = repository.getActorsDetails(name = name)
         }
     }
-
-    fun swipeRefreshListener(id: String) {
-        getMovieDetails(id = id)
-    }
-
 }

@@ -1,13 +1,16 @@
 package com.example.movieapp.ui.movieDetails
 
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
 import com.example.movieapp.databinding.MovieDetailsFragmentBinding
 import com.example.movieapp.extensions.setImage
 import com.example.movieapp.model.MovieDetailsModel
 import com.example.movieapp.ui.base.BaseFragment
+import com.example.movieapp.ui.movieDetails.adapter.ActorsAdapter
 import com.example.movieapp.ui.movieDetails.vm.MovieDetailsViewModel
 import com.example.movieapp.utils.Resource
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -19,10 +22,21 @@ class MovieDetailsFragment :
 
     private val safeArgs: MovieDetailsFragmentArgs by navArgs()
 
+    private lateinit var adapter: ActorsAdapter
+
     override fun init() {
         getMovieDetails()
-        observe()
+        observeWholeData()
         initListeners()
+        initRecyclerView()
+        observeActorsDetails()
+    }
+
+    private fun initRecyclerView() {
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        adapter = ActorsAdapter()
+        binding.recyclerView.adapter = adapter
     }
 
     private fun initListeners() {
@@ -39,7 +53,7 @@ class MovieDetailsFragment :
         viewModel.getActorsDetails(name = name)
     }
 
-    private fun observe() {
+    private fun observeWholeData() {
         viewModel.movieDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
@@ -47,6 +61,29 @@ class MovieDetailsFragment :
                 }
                 is Resource.Error -> {
                     makeToastMessage(it.message!!)
+                    binding.progressBar.isVisible = false
+                }
+                is Resource.Loading -> {
+                    binding.progressBar.isVisible = true
+                }
+                else -> {
+                    makeToastMessage(getString(R.string.unknownError))
+                }
+            }
+        }
+    }
+
+    private fun observeActorsDetails() {
+        viewModel.actorsDetails.observe(viewLifecycleOwner) {
+            Log.d("12345", "observeActorsDetails: $it")
+            when (it) {
+                is Resource.Success -> {
+                    Log.d("12345", "observeActorsDetails: ${it.data}")
+                    adapter.setData(it.data)
+                }
+                is Resource.Error -> {
+                    makeToastMessage(it.message!!)
+                    Log.d("12345", "observeActorsDetails: ${it.message}")
                     binding.progressBar.isVisible = false
                 }
                 is Resource.Loading -> {
@@ -67,8 +104,9 @@ class MovieDetailsFragment :
             languageTextView.text = it.language
             ratingTextView.text = it.rated
             description.text = it.plot
-            cast.text = it.actors
             coverIV.setImage(it.poster)
+            it.actors?.let { it1 -> getActorsDetails(it1) }
+            Log.d("12345", "successObserve: ${it.actors}")
             if (!it.genre.isNullOrEmpty()) {
                 val genre = it.genre.split(",").map { it.trim() }
                 when (genre.size) {

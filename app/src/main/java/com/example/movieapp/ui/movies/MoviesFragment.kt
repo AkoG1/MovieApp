@@ -59,14 +59,12 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
             when (it) {
                 is Resource.Success -> {
                     with(binding) {
-                        swipeRefresh.isRefreshing = true
                         adapter.setData(it.data)
                         swipeRefresh.isRefreshing = false
                     }
                 }
                 is Resource.Error -> {
                     with(binding) {
-                        swipeRefresh.isRefreshing = true
                         it.message?.let { it1 -> makeToastMessage(it1) }
                         swipeRefresh.isRefreshing = false
                     }

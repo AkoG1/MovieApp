@@ -60,7 +60,7 @@ class SearchedMoviesAdapter(private val onMovieClick: (id: String) -> Unit) :
 
     override fun getItemCount() = searchedMovies.size
 
-    fun setData(searchedMovies: MutableList<MovieDetailsModel>) {
+    fun setData(searchedMovies: List<MovieDetailsModel>) {
         this.searchedMovies.clear()
         this.searchedMovies.addAll(searchedMovies)
         notifyDataSetChanged()

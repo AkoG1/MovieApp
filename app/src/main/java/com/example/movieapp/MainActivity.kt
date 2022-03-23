@@ -6,6 +6,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.movieapp.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -25,7 +26,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNav() {
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        val navController = navHostFragment.navController
+
         findViewById<BottomNavigationView>(R.id.nav_view)
             .setupWithNavController(navController)
 

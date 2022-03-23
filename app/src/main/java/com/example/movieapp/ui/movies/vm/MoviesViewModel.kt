@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 
 class MoviesViewModel(private val repository: Repository) : ViewModel() {
 
-    private val _searchedMovies = MutableLiveData<Resource<MutableList<MovieDetailsModel>>>(Resource.Idle)
-    val searchedMovies: LiveData<Resource<MutableList<MovieDetailsModel>>> get() = _searchedMovies
+    private val _searchedMovies = MutableLiveData<Resource<List<MovieDetailsModel>>>(Resource.Idle)
+    val searchedMovies: LiveData<Resource<List<MovieDetailsModel>>> get() = _searchedMovies
 
     fun getSearchedMovies(searchedText: String) {
         viewModelScope.launch {
