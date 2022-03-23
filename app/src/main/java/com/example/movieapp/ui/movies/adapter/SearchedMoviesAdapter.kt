@@ -66,9 +66,4 @@ class SearchedMoviesAdapter(private val onMovieClick: (id: String) -> Unit) :
         notifyDataSetChanged()
     }
 
-    fun clearData() {
-        this.searchedMovies.clear()
-        notifyDataSetChanged()
-    }
-
 }

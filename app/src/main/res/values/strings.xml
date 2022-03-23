@@ -10,4 +10,5 @@
     <string name="description">Description</string>
     <string name="cast">Cast</string>
     <string name="imdb">/10 IMDB</string>
+    <string name="unknownError">Unknown Error</string>
 </resources>
