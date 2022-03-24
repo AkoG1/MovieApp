@@ -1,44 +1,81 @@
 package com.example.movieapp.ui.movies
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.movieapp.databinding.FragmentHomeBinding
+import androidx.core.widget.addTextChangedListener
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movieapp.databinding.FragmentMoviesBinding
+import com.example.movieapp.ui.base.BaseFragment
+import com.example.movieapp.ui.movies.adapter.SearchedMoviesAdapter
+import com.example.movieapp.ui.movies.vm.MoviesViewModel
+import com.example.movieapp.utils.Resource
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MoviesFragment : Fragment() {
+class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding::inflate) {
 
-    private lateinit var moviesViewModel: MoviesViewModel
-    private var _binding: FragmentHomeBinding? = null
+    private val viewModel: MoviesViewModel by viewModel()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var adapter: SearchedMoviesAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        moviesViewModel =
-            ViewModelProvider(this).get(MoviesViewModel::class.java)
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        moviesViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+    override fun init() {
+        swipeRefreshListener()
+        initSearchBar()
+        initRecyclerView()
+        observe()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun swipeRefreshListener() {
+        binding.swipeRefresh.setOnRefreshListener {
+            val lastSearchedText = binding.searchBar.text.toString()
+            viewModel.swipeRefresh(lastSearchedText)
+        }
+    }
+
+    private fun onMovieClick(id: String) {
+        val action = MoviesFragmentDirections.actionNavigationHomeToMovieDetailsFragment(id)
+        findNavController().navigate(action)
+    }
+
+    private fun initSearchBar() {
+        binding.searchBar.addTextChangedListener {
+            if (it.toString().isNotEmpty())
+                requestMovies(it.toString())
+            else
+                viewModel.clearLiveData()
+        }
+    }
+
+    private fun initRecyclerView() {
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = SearchedMoviesAdapter(::onMovieClick)
+        binding.recyclerView.adapter = adapter
+    }
+
+    private fun requestMovies(searchedText: String) {
+        viewModel.getSearchedMovies(searchedText = searchedText)
+    }
+
+    private fun observe() {
+        viewModel.searchedMovies.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    with(binding) {
+                        adapter.setData(it.data)
+                        swipeRefresh.isRefreshing = false
+                    }
+                }
+                is Resource.Error -> {
+                    with(binding) {
+                        it.message?.let { it1 -> makeToastMessage(it1) }
+                        swipeRefresh.isRefreshing = false
+                    }
+                }
+                is Resource.Loading -> {
+                    binding.swipeRefresh.isRefreshing = true
+                }
+                is Resource.Idle -> {
+                    binding.swipeRefresh.isRefreshing = false
+                }
+            }
+        }
     }
 }
