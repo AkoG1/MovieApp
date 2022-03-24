@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.databinding.ActorsItemBinding
-import com.example.movieapp.extensions.setActorImage
+import com.example.movieapp.extensions.setImage
 import com.example.movieapp.model.ActorsModel
 
 class ActorsAdapter : RecyclerView.Adapter<ActorsAdapter.ViewHolder>() {
@@ -18,7 +18,7 @@ class ActorsAdapter : RecyclerView.Adapter<ActorsAdapter.ViewHolder>() {
             with(binding) {
                 if (model.results != null && model.results.isNotEmpty()) {
                     nameTV.text = model.results[0].name.toString()
-                    actorsPhoto.setActorImage(model.results[0].profilePath.toString())
+                    actorsPhoto.setImage("https://image.tmdb.org/t/p/original" + model.results[0].profilePath.toString())
                 }
             }
         }

@@ -60,7 +60,7 @@ class MovieDetailsFragment :
                     successObserve(it.data)
                 }
                 is Resource.Error -> {
-                    makeToastMessage(it.message!!)
+                    it.message?.let { message -> makeToastMessage(message) }
                     binding.progressBar.isVisible = false
                 }
                 is Resource.Loading -> {
@@ -80,7 +80,7 @@ class MovieDetailsFragment :
             ratingTextView.text = it.rated
             description.text = it.plot
             coverIV.setImage(it.poster)
-            it.actors?.let { it1 -> getActorsDetails(it1) }
+            it.actors?.let { name -> getActorsDetails(name) }
             Log.d("12345", "successObserve: ${it.actors}")
             if (!it.genre.isNullOrEmpty()) {
                 val genre = it.genre.split(",").map { it.trim() }
