@@ -66,9 +66,7 @@ class MovieDetailsFragment :
                 is Resource.Loading -> {
                     binding.progressBar.isVisible = true
                 }
-                else -> {
-                    makeToastMessage(getString(R.string.unknownError))
-                }
+                is Resource.Idle -> {}
             }
         }
     }
@@ -112,17 +110,16 @@ class MovieDetailsFragment :
             when (it) {
                 is Resource.Success -> {
                     adapter.setData(it.data)
+                    binding.actorsProgressBar.isVisible = false
                 }
                 is Resource.Error -> {
                     makeToastMessage(it.message!!)
-                    binding.progressBar.isVisible = false
+                    binding.actorsProgressBar.isVisible = false
                 }
                 is Resource.Loading -> {
-                    binding.progressBar.isVisible = true
+                    binding.actorsProgressBar.isVisible = true
                 }
-                else -> {
-                    makeToastMessage(getString(R.string.unknownError))
-                }
+                is Resource.Idle -> {}
             }
         }
     }

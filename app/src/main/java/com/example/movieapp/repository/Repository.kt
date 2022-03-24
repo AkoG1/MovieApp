@@ -68,10 +68,10 @@ class Repository(private val networkClient: NetworkClient) {
     }
 
     suspend fun getActorsDetails(actors: String): Resource<List<ActorsModel>> {
-        val listedNames = actors.split(",").map { it.trim()}
-            val result = listedNames.map { actor ->
+        val listedNames = actors.split(",").map { it.trim() }
+        val result = listedNames.map { actor ->
             coroutineScope {
-                async { requestActorsDetails(actor)}
+                async { requestActorsDetails(actor) }
             }
         }.awaitAll()
 
