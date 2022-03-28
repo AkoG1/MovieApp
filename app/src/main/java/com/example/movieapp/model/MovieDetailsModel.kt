@@ -13,7 +13,7 @@ data class MovieDetailsModel(
     @SerializedName("Genre")
     val genre: String?,
     @SerializedName("imdbID")
-    val imdbID: String?,
+    val imdbID: String,
     @SerializedName("imdbRating")
     val imdbRating: String?,
     @SerializedName("imdbVotes")
