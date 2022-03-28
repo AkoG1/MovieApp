@@ -158,7 +158,7 @@ class MovieDetailsFragment :
                     binding.actorsProgressBar.isVisible = false
                 }
                 is Resource.Error -> {
-                    makeToastMessage(it.message!!)
+                    it.message?.let { it1 -> makeToastMessage(it1) }
                     binding.actorsProgressBar.isVisible = false
                 }
                 is Resource.Loading -> {
