@@ -21,7 +21,7 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(FragmentFavorit
     }
 
     private fun observe() {
-        viewModel.wholeDB.observe(viewLifecycleOwner) {
+        viewModel.favoriteMovies.observe(viewLifecycleOwner) {
             adapter.setData(it)
         }
     }

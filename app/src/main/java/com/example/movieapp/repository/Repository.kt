@@ -8,9 +8,11 @@ import com.example.movieapp.network.NetworkClient
 import com.example.movieapp.room.dao.MoviesDao
 import com.example.movieapp.room.entity.MovieEntity
 import com.example.movieapp.utils.Resource
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 
 class Repository(private val networkClient: NetworkClient, private val moviesDao: MoviesDao) {
 
@@ -107,14 +109,16 @@ class Repository(private val networkClient: NetworkClient, private val moviesDao
         }
     }
 
-    fun getAllSavedMovies(): LiveData<List<MovieEntity>> = moviesDao.getAll()
+    fun favoriteMovies(): LiveData<List<MovieEntity>> = moviesDao.getAll()
 
     suspend fun insertToSaved(movie: MovieEntity) {
         moviesDao.insertAll(movie)
     }
 
-    fun deleteFromDB(movie: MovieEntity) {
-        moviesDao.delete(movie = movie)
+    suspend fun deleteFromDB(movie: MovieEntity) {
+        withContext(IO) {
+            moviesDao.delete(movie = movie)
+        }
     }
 
     suspend fun getMovieById(imdbId: String): MovieEntity =
