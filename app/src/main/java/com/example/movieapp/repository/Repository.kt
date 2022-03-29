@@ -1,15 +1,20 @@
 package com.example.movieapp.repository
 
+import androidx.lifecycle.LiveData
 import com.example.movieapp.model.ActorsModel
 import com.example.movieapp.model.MovieDetailsModel
 import com.example.movieapp.model.SearchedItemsModel
 import com.example.movieapp.network.NetworkClient
+import com.example.movieapp.room.dao.MoviesDao
+import com.example.movieapp.room.entity.MovieEntity
 import com.example.movieapp.utils.Resource
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 
-class Repository(private val networkClient: NetworkClient) {
+class Repository(private val networkClient: NetworkClient, private val moviesDao: MoviesDao) {
 
     suspend fun getSearchedMovies(searchedText: String): Resource<List<MovieDetailsModel>> {
         return try {
@@ -33,7 +38,7 @@ class Repository(private val networkClient: NetworkClient) {
     ): Resource<List<MovieDetailsModel>> {
         val result = items.map { item ->
             coroutineScope {
-                async { getMovieDetails(item.imdbID!!) }
+                async { getMovieDetails(item.imdbID) }
             }
         }.awaitAll()
 
@@ -102,6 +107,25 @@ class Repository(private val networkClient: NetworkClient) {
         } catch (e: Exception) {
             Resource.Error(e.message)
         }
+    }
+
+    fun favoriteMovies(): LiveData<List<MovieEntity>> = moviesDao.getAll()
+
+    suspend fun insertToSaved(movie: MovieEntity) {
+        moviesDao.insertAll(movie)
+    }
+
+    suspend fun deleteFromDB(movie: MovieEntity) {
+        withContext(IO) {
+            moviesDao.delete(movie = movie)
+        }
+    }
+
+    suspend fun getMovieById(imdbId: String): MovieEntity =
+        moviesDao.getMovieById(imdbID = imdbId)
+
+    suspend fun checkMovieInDB(imdbId: String): Boolean {
+        return moviesDao.checkMovieInDb(imdbId)
     }
 
     companion object {

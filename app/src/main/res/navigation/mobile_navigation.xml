@@ -25,7 +25,11 @@
         android:id="@+id/navigation_notifications"
         android:name="com.example.movieapp.ui.favorites.FavoritesFragment"
         android:label="@string/title_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_navigation_notifications_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.example.movieapp.ui.movieDetails.MovieDetailsFragment"

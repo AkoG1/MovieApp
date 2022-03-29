@@ -11,4 +11,10 @@
     <string name="cast">Cast</string>
     <string name="imdb">/10 IMDB</string>
     <string name="unknownError">Unknown Error</string>
+    <string name="cantSave">Can not save</string>
+    <string name="pleaseWait">Please Wait</string>
+    <string name="addedToDB">Added Successfully</string>
+    <string name="remove">X</string>
+    <string name="save">SAVE</string>
+    <string name="cantLoad">Can not load</string>
 </resources>

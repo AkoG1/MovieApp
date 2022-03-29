@@ -9,6 +9,7 @@ import com.example.movieapp.R
 import com.example.movieapp.databinding.MovieDetailsFragmentBinding
 import com.example.movieapp.extensions.setImage
 import com.example.movieapp.model.MovieDetailsModel
+import com.example.movieapp.network.isOnline
 import com.example.movieapp.ui.base.BaseFragment
 import com.example.movieapp.ui.movieDetails.adapter.ActorsAdapter
 import com.example.movieapp.ui.movieDetails.vm.MovieDetailsViewModel
@@ -25,11 +26,31 @@ class MovieDetailsFragment :
     private lateinit var adapter: ActorsAdapter
 
     override fun init() {
-        initListeners()
+        checkInDb()
         initRecyclerView()
-        getMovieDetails()
-        observeWholeData()
-        observeActorsDetails()
+        initListeners()
+        if (isOnline(requireContext())) {
+            getMovieDetails()
+            observeWholeData()
+            observeActorsDetails()
+            binding.save.isVisible = true
+        } else if (!isOnline(requireContext())) {
+            observeCheckDb()
+        }
+    }
+
+    private fun checkInDb() {
+        viewModel.checkMovieInDB(safeArgs.id)
+    }
+
+    private fun observeCheckDb() {
+        viewModel.checkInDb.observe(viewLifecycleOwner) {
+            if (it) {
+                getMovieDetailsFromDB()
+                binding.save.isClickable = false
+            } else
+                makeToastMessage(getString(R.string.cantLoad))
+        }
     }
 
     private fun initRecyclerView() {
@@ -42,6 +63,25 @@ class MovieDetailsFragment :
     private fun initListeners() {
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
+        }
+        binding.save.setOnClickListener {
+            when (viewModel.movieDetails.value) {
+                is Resource.Success -> {
+                    viewModel.saveMovie((viewModel.movieDetails.value as Resource.Success<MovieDetailsModel>).data)
+                    binding.save.isClickable = false
+                    makeToastMessage(getString(R.string.addedToDB))
+                }
+                is Resource.Error -> {
+                    makeToastMessage(getString(R.string.cantSave))
+                    binding.save.isClickable = false
+                }
+                is Resource.Loading -> {
+                    makeToastMessage(getString(R.string.pleaseWait))
+                }
+                is Resource.Idle -> {
+                    makeToastMessage(getString(R.string.pleaseWait))
+                }
+            }
         }
     }
 
@@ -81,7 +121,6 @@ class MovieDetailsFragment :
             description.text = it.plot
             coverIV.setImage(it.poster)
             it.actors?.let { name -> getActorsDetails(name) }
-            Log.d("12345", "successObserve: ${it.actors}")
             if (!it.genre.isNullOrEmpty()) {
                 val genre = it.genre.split(",").map { it.trim() }
                 when (genre.size) {
@@ -105,6 +144,13 @@ class MovieDetailsFragment :
         }
     }
 
+    private fun getMovieDetailsFromDB() {
+        viewModel.getMovieById(safeArgs.id)
+        viewModel.movieDetailsFromDb.observe(viewLifecycleOwner) {
+            successObserve(it)
+        }
+    }
+
     private fun observeActorsDetails() {
         viewModel.actorsDetails.observe(viewLifecycleOwner) {
             when (it) {
@@ -113,7 +159,7 @@ class MovieDetailsFragment :
                     binding.actorsProgressBar.isVisible = false
                 }
                 is Resource.Error -> {
-                    makeToastMessage(it.message!!)
+                    it.message?.let { it1 -> makeToastMessage(it1) }
                     binding.actorsProgressBar.isVisible = false
                 }
                 is Resource.Loading -> {

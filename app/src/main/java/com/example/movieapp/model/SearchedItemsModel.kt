@@ -13,7 +13,7 @@ data class SearchedItemsModel(
 ) {
     data class Search(
         @SerializedName("imdbID")
-        val imdbID: String?,
+        val imdbID: String,
         @SerializedName("Poster")
         val poster: String?,
         @SerializedName("Title")
