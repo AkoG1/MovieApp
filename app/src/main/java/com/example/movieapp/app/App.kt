@@ -1,9 +1,7 @@
 package com.example.movieapp.app
 
 import android.app.Application
-import com.example.movieapp.di.appModules
-import com.example.movieapp.di.database
-import com.example.movieapp.di.viewModels
+import com.example.movieapp.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -13,7 +11,7 @@ class App : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
-            modules(listOf(appModules, database, viewModels))
+            modules(listOf(appModules, viewModels, mappers, useCases, database))
         }
     }
 
