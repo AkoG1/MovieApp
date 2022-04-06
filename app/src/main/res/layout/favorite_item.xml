@@ -3,12 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="150dp"
     android:layout_height="250dp"
+    android:layout_marginStart="10dp"
     android:orientation="vertical">
+
+    <com.example.movieapp.customViews.BackgroundViewWithShadow
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/coverIV"
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:layout_margin="10dp"
         android:scaleType="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,24 +29,25 @@
         android:id="@+id/deleteFromFav"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:background="#F80909"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/delete_button_background"
         android:text="@string/remove"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:textColor="@color/white"
-        android:textSize="17sp"/>
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/titleTV"
-        app:layout_constraintTop_toBottomOf="@id/coverIV"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:fontFamily="@font/mulish_regular"
         android:gravity="center"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/coverIV" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

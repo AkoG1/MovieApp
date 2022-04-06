@@ -32,6 +32,7 @@ class MovieDetailsFragment :
             getMovieDetails()
             observeWholeData()
             observeActorsDetails()
+            binding.save.isVisible = true
         } else if (!isOnline(requireContext())) {
             observeCheckDb()
         }
