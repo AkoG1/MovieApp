@@ -6,7 +6,7 @@
     android:layout_marginStart="10dp"
     android:orientation="vertical">
 
-    <com.example.movieapp.customViews.BackgroundViewWithShadow
+    <com.example.movieapp.presentation.customViews.BackgroundViewWithShadow
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:cornerRadius="20dp"
