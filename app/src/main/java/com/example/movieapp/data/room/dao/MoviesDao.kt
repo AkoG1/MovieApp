@@ -3,12 +3,13 @@ package com.example.movieapp.data.room.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.movieapp.data.room.entity.MovieEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MoviesDao {
 
     @Query("SELECT * FROM movieDetails")
-    fun getAll(): LiveData<List<MovieEntity>>
+    fun getAll(): Flow<List<MovieEntity>>
 
     @Query("SELECT * FROM movieDetails WHERE imdbID = :imdbID")
     suspend fun getMovieById(imdbID: String) : MovieEntity

@@ -1,11 +1,11 @@
-package com.example.movieapp.data.repository
+package com.example.movieapp.domain.repository
 
-import androidx.lifecycle.LiveData
 import com.example.movieapp.data.room.entity.MovieEntity
+import kotlinx.coroutines.flow.Flow
 
-interface DbRepositoryImpl {
+interface MovieDbRepository {
 
-    fun favoriteMovies(): LiveData<List<MovieEntity>>
+    fun favoriteMovies(): Flow<List<MovieEntity>>
 
     suspend fun insertToSaved(movie: MovieEntity)
 

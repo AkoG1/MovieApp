@@ -3,7 +3,7 @@ package com.example.movieapp.data.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class SearchedItemsModelDto(
+data class SearchedItemsResponseDto(
     @SerializedName("Response")
     val response: String?,
     @SerializedName("Search")

@@ -4,30 +4,30 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movieapp.data.room.entity.MovieEntity
 import com.example.movieapp.domain.model.ActorsModel
 import com.example.movieapp.domain.model.MovieDetailsModel
-import com.example.movieapp.domain.use_cases.get_movie_details.GetMovieDetailsUseCaseImpl
-import com.example.movieapp.domain.use_cases.get_actors_details.GetActorsDetailsUseCaseImpl
+import com.example.movieapp.domain.use_cases.check_movie_in_db.CheckMovieInDbUseCase
+import com.example.movieapp.domain.use_cases.get_actors_details.GetActorsDetailsUseCase
+import com.example.movieapp.domain.use_cases.get_movie_details.GetMovieDetailsUseCase
+import com.example.movieapp.domain.use_cases.get_movie_from_db.GetMovieFromDbUseCase
+import com.example.movieapp.domain.use_cases.save_in_db.SaveInDbUseCase
 import com.example.movieapp.domain.utils.Resource
-import com.example.movieapp.data.room.entity.MovieEntity
-import com.example.movieapp.domain.use_cases.check_movie_in_db.CheckMovieInDbUseCaseImpl
-import com.example.movieapp.domain.use_cases.get_movie_from_db.GetMovieFromDbUseCaseImpl
-import com.example.movieapp.domain.use_cases.save_in_db.SaveInDbUseCaseImpl
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
-    private val repository: GetMovieDetailsUseCaseImpl,
-    private val saveToDbUseCase: SaveInDbUseCaseImpl,
-    private val actorsRepository: GetActorsDetailsUseCaseImpl,
-    private val getMovieFromDb: GetMovieFromDbUseCaseImpl,
-    private val checkMovieInDb: CheckMovieInDbUseCaseImpl
+    private val getMovieDetails: GetMovieDetailsUseCase,
+    private val saveToDbUseCase: SaveInDbUseCase,
+    private val actorsRepository: GetActorsDetailsUseCase,
+    private val getMovieFromDb: GetMovieFromDbUseCase,
+    private val checkMovieInDb: CheckMovieInDbUseCase
 ) : ViewModel() {
 
     private val _movieDetails = MutableLiveData<Resource<MovieDetailsModel>>(Resource.Idle)
     val movieDetails: LiveData<Resource<MovieDetailsModel>> get() = _movieDetails
 
     private val _actorsDetails = MutableLiveData<Resource<List<ActorsModel>>>(Resource.Idle)
-    val actorsDetailsDto: LiveData<Resource<List<ActorsModel>>> get() = _actorsDetails
+    val actorsDetails: LiveData<Resource<List<ActorsModel>>> get() = _actorsDetails
 
     private val _movieDetailsFromDb = MutableLiveData<MovieDetailsModel>()
     val movieDetailsFromDb: LiveData<MovieDetailsModel> get() = _movieDetailsFromDb
@@ -38,7 +38,7 @@ class MovieDetailsViewModel(
     fun getMovieDetails(id: String) {
         viewModelScope.launch {
             _movieDetails.value = Resource.Loading
-            _movieDetails.value = repository.getMovieDetails(id = id)
+            _movieDetails.value = getMovieDetails.getMovieDetails(id = id)
         }
     }
 

@@ -1,25 +1,25 @@
-package com.example.movieapp.domain.repository
+package com.example.movieapp.data.repository
 
-import com.example.movieapp.data.dto.ActorsModelDto
+import com.example.movieapp.data.dto.ActorsResponseDto
 import com.example.movieapp.data.mappers.ActorsModelMapper
 import com.example.movieapp.data.mappers.MovieDetailsMapper
 import com.example.movieapp.data.mappers.SearchedItemsModelMapper
 import com.example.movieapp.data.network.NetworkClient
-import com.example.movieapp.data.repository.NetworkRepositoryImpl
 import com.example.movieapp.domain.model.ActorsModel
 import com.example.movieapp.domain.model.MovieDetailsModel
 import com.example.movieapp.domain.model.Search
+import com.example.movieapp.domain.repository.MovieNetworkRepository
 import com.example.movieapp.domain.utils.Resource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
-class NetworkRepository(
+class MovieNetworkRepositoryImpl(
     private val networkClient: NetworkClient,
     private val movieDetailsMapper: MovieDetailsMapper,
     private val actorsModelMapper: ActorsModelMapper,
     private val searchedItemsModelMapper: SearchedItemsModelMapper
-): NetworkRepositoryImpl {
+): MovieNetworkRepository {
 
     override suspend fun getSearchedMovies(searchedText: String): Resource<List<MovieDetailsModel>> {
         return try {
@@ -87,7 +87,7 @@ class NetworkRepository(
             }
         }.awaitAll()
 
-        val errors = result.filterIsInstance<Resource.Error<ActorsModelDto>>()
+        val errors = result.filterIsInstance<Resource.Error<ActorsResponseDto>>()
 
         return if (errors.isNotEmpty()) {
             Resource.Error(errors.first().message)

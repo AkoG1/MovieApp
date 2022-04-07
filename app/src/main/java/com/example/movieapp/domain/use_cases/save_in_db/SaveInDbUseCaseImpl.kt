@@ -1,10 +1,10 @@
 package com.example.movieapp.domain.use_cases.save_in_db
 
-import com.example.movieapp.domain.repository.DbRepository
 import com.example.movieapp.data.room.entity.MovieEntity
+import com.example.movieapp.domain.repository.MovieDbRepository
 
-class SaveInDbUseCaseImpl(private val repository: DbRepository): SaveInDbUseCase {
+class SaveInDbUseCaseImpl(private val repositoryMovieImplImpl: MovieDbRepository): SaveInDbUseCase {
     override suspend fun insertToSaved(movie: MovieEntity) {
-        repository.insertToSaved(movie)
+        repositoryMovieImplImpl.insertToSaved(movie)
     }
 }

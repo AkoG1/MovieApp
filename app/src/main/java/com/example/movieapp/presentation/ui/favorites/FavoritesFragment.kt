@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.ui.favorites
 
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieapp.databinding.FragmentFavoritesBinding
@@ -7,6 +8,8 @@ import com.example.movieapp.data.room.entity.MovieEntity
 import com.example.movieapp.presentation.base.BaseFragment
 import com.example.movieapp.presentation.ui.favorites.adapter.SavedMoviesAdapter
 import com.example.movieapp.presentation.ui.favorites.vm.FavoritesViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(FragmentFavoritesBinding:: inflate) {
@@ -21,8 +24,10 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(FragmentFavorit
     }
 
     private fun observe() {
-        viewModel.favoriteMovies.observe(viewLifecycleOwner) {
-            adapter.setData(it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.favoriteMovies.collect {
+                adapter.setData(it)
+            }
         }
     }
 

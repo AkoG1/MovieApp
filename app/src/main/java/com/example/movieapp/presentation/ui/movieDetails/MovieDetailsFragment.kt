@@ -151,7 +151,7 @@ class MovieDetailsFragment :
     }
 
     private fun observeActorsDetails() {
-        viewModel.actorsDetailsDto.observe(viewLifecycleOwner) {
+        viewModel.actorsDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
                     adapter.setData(it.data)

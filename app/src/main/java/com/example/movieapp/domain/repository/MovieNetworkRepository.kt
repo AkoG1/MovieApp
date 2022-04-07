@@ -1,10 +1,10 @@
-package com.example.movieapp.data.repository
+package com.example.movieapp.domain.repository
 
 import com.example.movieapp.domain.model.ActorsModel
 import com.example.movieapp.domain.model.MovieDetailsModel
 import com.example.movieapp.domain.utils.Resource
 
-interface NetworkRepositoryImpl {
+interface MovieNetworkRepository {
 
     suspend fun getSearchedMovies(searchedText: String): Resource<List<MovieDetailsModel>>
 

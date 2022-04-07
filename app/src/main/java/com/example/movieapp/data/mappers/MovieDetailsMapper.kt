@@ -1,10 +1,10 @@
 package com.example.movieapp.data.mappers
 
-import com.example.movieapp.data.dto.MovieDetailsModelDto
+import com.example.movieapp.data.dto.MovieDetailsResponseDto
 import com.example.movieapp.domain.model.MovieDetailsModel
 
-class MovieDetailsMapper(): Mapper<MovieDetailsModelDto, MovieDetailsModel> {
-    override fun mapModel(model: MovieDetailsModelDto): MovieDetailsModel {
+class MovieDetailsMapper(): Mapper<MovieDetailsResponseDto, MovieDetailsModel> {
+    override fun mapModel(model: MovieDetailsResponseDto): MovieDetailsModel {
         with(model) {
             return MovieDetailsModel(
                 actors = actors,

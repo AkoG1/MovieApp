@@ -1,15 +1,16 @@
-package com.example.movieapp.domain.repository
+package com.example.movieapp.data.repository
 
-import androidx.lifecycle.LiveData
-import com.example.movieapp.data.repository.DbRepositoryImpl
 import com.example.movieapp.data.room.dao.MoviesDao
 import com.example.movieapp.data.room.entity.MovieEntity
+import com.example.movieapp.domain.repository.MovieDbRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
-class DbRepository(private val moviesDao: MoviesDao) : DbRepositoryImpl{
+class MovieDbRepositoryImpl(private val moviesDao: MoviesDao) :
+    MovieDbRepository {
 
-    override fun favoriteMovies(): LiveData<List<MovieEntity>> = moviesDao.getAll()
+    override fun favoriteMovies(): Flow<List<MovieEntity>> = moviesDao.getAll()
 
     override suspend fun insertToSaved(movie: MovieEntity) {
         moviesDao.insertAll(movie)
