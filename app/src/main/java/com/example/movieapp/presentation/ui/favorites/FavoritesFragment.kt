@@ -1,6 +1,8 @@
 package com.example.movieapp.presentation.ui.favorites
 
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieapp.databinding.FragmentFavoritesBinding
@@ -12,7 +14,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(FragmentFavoritesBinding:: inflate) {
+class FavoritesFragment :
+    BaseFragment<FragmentFavoritesBinding>(FragmentFavoritesBinding::inflate) {
 
     private lateinit var adapter: SavedMoviesAdapter
 
@@ -25,8 +28,10 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(FragmentFavorit
 
     private fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.favoriteMovies.collect {
-                adapter.setData(it)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.favoriteMovies.collect {
+                    adapter.setData(it)
+                }
             }
         }
     }
@@ -42,7 +47,10 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(FragmentFavorit
     }
 
     private fun onClicked(movieEntity: MovieEntity) {
-        val action = FavoritesFragmentDirections.actionNavigationNotificationsToMovieDetailsFragment(movieEntity.imdbID)
+        val action =
+            FavoritesFragmentDirections.actionNavigationNotificationsToMovieDetailsFragment(
+                movieEntity.imdbID
+            )
         findNavController().navigate(action)
     }
 
