@@ -7,34 +7,38 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.movieapp.ui.movies.MoviesFragment"
+        android:name="com.example.movieapp.presentation.ui.movies.MoviesFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_movies" >
+        tools:layout="@layout/fragment_movies">
         <action
             android:id="@+id/action_navigation_home_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment" />
+            app:destination="@id/movieDetailsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.movieapp.ui.tickets.TicketsFragment"
+        android:name="com.example.movieapp.presentation.ui.tickets.TicketsFragment"
         android:label="@string/title_bookmarks"
         tools:layout="@layout/fragment_tickets" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.movieapp.ui.favorites.FavoritesFragment"
+        android:name="com.example.movieapp.presentation.ui.favorites.FavoritesFragment"
         android:label="@string/title_favorites"
-        tools:layout="@layout/fragment_favorites" >
+        tools:layout="@layout/fragment_favorites">
         <action
             android:id="@+id/action_navigation_notifications_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment" />
+            app:destination="@id/movieDetailsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
-        android:name="com.example.movieapp.ui.movieDetails.MovieDetailsFragment"
+        android:name="com.example.movieapp.presentation.ui.movieDetails.MovieDetailsFragment"
         android:label="movie_details_fragment"
-        tools:layout="@layout/movie_details_fragment" >
+        tools:layout="@layout/movie_details_fragment">
         <argument
             android:name="id"
             app:argType="string" />

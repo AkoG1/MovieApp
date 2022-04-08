@@ -17,4 +17,5 @@
     <string name="remove">X</string>
     <string name="save">SAVE</string>
     <string name="cantLoad">Can not load</string>
+    <string name="soon">SOON</string>
 </resources>
