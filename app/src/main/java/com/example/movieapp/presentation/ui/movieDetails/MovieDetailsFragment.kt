@@ -60,6 +60,11 @@ class MovieDetailsFragment :
     }
 
     private fun initListeners() {
+        binding.watchLater.setOnClickListener {
+            val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToItemListDialogFragment(binding.titleTV.text.toString())
+            findNavController().navigate(action)
+        }
+
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
