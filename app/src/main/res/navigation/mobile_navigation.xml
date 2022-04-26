@@ -48,7 +48,7 @@
     </fragment>
     <dialog
         android:id="@+id/itemListDialogFragment"
-        android:name="com.example.movieapp.presentation.ui.datePickerDialog.ItemListDialogFragment"
+        android:name="com.example.movieapp.presentation.ui.datePickerDialog.ScheduleNotificationDialogFragment"
         android:label="fragment_item_list_dialog_list_dialog"
         tools:layout="@layout/fragment_item_list_dialog_list_dialog" >
         <argument

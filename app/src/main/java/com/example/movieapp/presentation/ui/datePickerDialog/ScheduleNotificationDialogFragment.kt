@@ -21,9 +21,9 @@ import com.example.movieapp.presentation.notifications.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.*
 
-class ItemListDialogFragment : BottomSheetDialogFragment() {
+class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
 
-    private val safeArgs: ItemListDialogFragmentArgs by navArgs()
+    private val safeArgs: ScheduleNotificationDialogFragmentArgs by navArgs()
 
     private var _binding: FragmentItemListDialogListDialogBinding? = null
     private val binding get() = _binding!!
