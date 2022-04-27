@@ -61,7 +61,12 @@ class MovieDetailsFragment :
 
     private fun initListeners() {
         binding.watchLater.setOnClickListener {
-            val action = MovieDetailsFragmentDirections.actionMovieDetailsFragmentToItemListDialogFragment(binding.titleTV.text.toString())
+            val action =
+                MovieDetailsFragmentDirections
+                    .actionMovieDetailsFragmentToItemListDialogFragment(
+                        binding.titleTV.text.toString(),
+                        safeArgs.id
+                    )
             findNavController().navigate(action)
         }
 

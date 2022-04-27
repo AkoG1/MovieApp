@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import com.example.movieapp.R
 import com.example.movieapp.presentation.MainActivity
@@ -13,6 +14,7 @@ const val notificationId = 1
 const val channelId = "Reminder"
 const val titleExtra = "TitleExtra"
 const val messageExtra = "MessageExtra"
+const val idExtra = ""
 
 class Notification : BroadcastReceiver() {
 
@@ -21,8 +23,12 @@ class Notification : BroadcastReceiver() {
         val pendingIntent = NavDeepLinkBuilder(context)
             .setComponentName(MainActivity::class.java)
             .setGraph(R.navigation.mobile_navigation)
-            //navigation is just an example(in progress...)
-            .setDestination(R.id.navigation_notifications)
+            .setDestination(R.id.movieDetailsFragment)
+            .setArguments(
+                bundleOf(
+                    "id" to intent.getStringExtra(idExtra)
+                )
+            )
             .createPendingIntent()
 
         val notification = NotificationCompat.Builder(context, channelId)

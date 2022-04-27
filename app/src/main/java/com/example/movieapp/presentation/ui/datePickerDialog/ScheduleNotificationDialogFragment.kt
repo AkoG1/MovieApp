@@ -71,6 +71,7 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
         val message = getString(R.string.default_message) + " ${safeArgs.title}"
         intent.putExtra(titleExtra, getString(R.string.Title))
         intent.putExtra(messageExtra, message)
+        intent.putExtra(idExtra, safeArgs.imdbId)
         val pendingIntent = PendingIntent.getBroadcast(
             requireContext(),
             notificationId,
