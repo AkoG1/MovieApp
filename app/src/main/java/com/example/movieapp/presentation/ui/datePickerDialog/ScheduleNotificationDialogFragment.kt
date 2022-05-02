@@ -74,7 +74,7 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
         intent.putExtra(idExtra, safeArgs.imdbId)
         val pendingIntent = PendingIntent.getBroadcast(
             requireContext(),
-            notificationId,
+            generateUniqueId(),
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
@@ -87,6 +87,8 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
         )
     }
 
+    private fun generateUniqueId() = (Date().time % Int.MAX_VALUE).toInt()
+
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getTime(): Long {
         val minute = binding.timePicker.minute
@@ -98,6 +100,8 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
         calendar.set(year, month, day, hour, minute)
         return calendar.timeInMillis
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

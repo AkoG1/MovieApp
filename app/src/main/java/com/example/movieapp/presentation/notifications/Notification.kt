@@ -5,16 +5,19 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationCompat.GROUP_ALERT_ALL
 import androidx.core.os.bundleOf
 import androidx.navigation.NavDeepLinkBuilder
 import com.example.movieapp.R
 import com.example.movieapp.presentation.MainActivity
 
-const val notificationId = 1
+const val uniqueNotificationId = 1
 const val channelId = "Reminder"
 const val titleExtra = "TitleExtra"
 const val messageExtra = "MessageExtra"
 const val idExtra = ""
+const val GROUP = "watchReminder"
+const val ID = "id"
 
 class Notification : BroadcastReceiver() {
 
@@ -26,7 +29,7 @@ class Notification : BroadcastReceiver() {
             .setDestination(R.id.movieDetailsFragment)
             .setArguments(
                 bundleOf(
-                    "id" to intent.getStringExtra(idExtra)
+                    ID to intent.getStringExtra(idExtra)
                 )
             )
             .createPendingIntent()
@@ -39,9 +42,12 @@ class Notification : BroadcastReceiver() {
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
+            .setGroup(GROUP)
+            .setGroupAlertBehavior(GROUP_ALERT_ALL)
+            .build()
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(notificationId, notification.build())
+        manager.notify(uniqueNotificationId, notification)
     }
 
 }
