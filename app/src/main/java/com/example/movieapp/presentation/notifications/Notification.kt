@@ -11,7 +11,7 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.example.movieapp.R
 import com.example.movieapp.presentation.MainActivity
 
-const val uniqueNotificationId = 1
+const val notificationId = "1"
 const val channelId = "Reminder"
 const val titleExtra = "TitleExtra"
 const val messageExtra = "MessageExtra"
@@ -47,6 +47,7 @@ class Notification : BroadcastReceiver() {
             .build()
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val uniqueNotificationId = intent.getIntExtra(notificationId, 1)
         manager.notify(uniqueNotificationId, notification)
     }
 

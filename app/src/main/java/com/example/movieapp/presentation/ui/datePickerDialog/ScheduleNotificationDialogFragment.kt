@@ -69,12 +69,14 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
     private fun scheduleNotification() {
         val intent = Intent(requireContext(), Notification::class.java)
         val message = getString(R.string.default_message) + " ${safeArgs.title}"
+        val uniqueNotificationId = generateUniqueId()
         intent.putExtra(titleExtra, getString(R.string.Title))
         intent.putExtra(messageExtra, message)
         intent.putExtra(idExtra, safeArgs.imdbId)
+        intent.putExtra(notificationId, uniqueNotificationId)
         val pendingIntent = PendingIntent.getBroadcast(
             requireContext(),
-            generateUniqueId(),
+            uniqueNotificationId,
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
