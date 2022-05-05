@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.ui.datePickerDialog
+package com.example.movieapp.presentation.ui.scheduleNotification
 
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.navArgs
 import com.example.movieapp.R
+import com.example.movieapp.app.App.Companion.NAME
 import com.example.movieapp.databinding.FragmentItemListDialogListDialogBinding
 import com.example.movieapp.presentation.notifications.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -47,22 +48,11 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun init() {
         binding.timePicker.setIs24HourView(true)
-        createNotification()
         binding.remindMe.setOnClickListener {
             scheduleNotification()
             Toast.makeText(requireContext(), getString(R.string.Scheduled), Toast.LENGTH_SHORT)
                 .show()
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotification() {
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(channelId, NAME, importance)
-        channel.description = DESCRIPTION
-        val notificationManager =
-            activity?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -73,7 +63,7 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
         intent.putExtra(titleExtra, getString(R.string.Title))
         intent.putExtra(messageExtra, message)
         intent.putExtra(idExtra, safeArgs.imdbId)
-        intent.putExtra(notificationId, uniqueNotificationId)
+        intent.putExtra(reminderNotificationIdExtra, uniqueNotificationId)
         val pendingIntent = PendingIntent.getBroadcast(
             requireContext(),
             uniqueNotificationId,
@@ -111,7 +101,6 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
     }
 
     companion object {
-        const val NAME = "MovieApp Channel"
         const val DESCRIPTION = "MovieApp"
     }
 }

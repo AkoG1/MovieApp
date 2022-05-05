@@ -11,7 +11,7 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.example.movieapp.R
 import com.example.movieapp.presentation.MainActivity
 
-const val notificationId = "1"
+const val reminderNotificationIdExtra = "1"
 const val channelId = "Reminder"
 const val titleExtra = "TitleExtra"
 const val messageExtra = "MessageExtra"
@@ -38,7 +38,7 @@ class Notification : BroadcastReceiver() {
             .setSmallIcon(R.drawable.ic_movie)
             .setContentTitle(intent.getStringExtra(titleExtra))
             .setContentText(intent.getStringExtra(messageExtra))
-            .setVibrate(longArrayOf(1000, 1000, 1000))
+            .setVibrate(longArrayOf(VIBRATE_1_SEC, VIBRATE_1_SEC, VIBRATE_1_SEC))
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
@@ -47,8 +47,11 @@ class Notification : BroadcastReceiver() {
             .build()
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val uniqueNotificationId = intent.getIntExtra(notificationId, 1)
+        val uniqueNotificationId = intent.getIntExtra(reminderNotificationIdExtra, 1)
         manager.notify(uniqueNotificationId, notification)
     }
 
+    companion object {
+        private const val VIBRATE_1_SEC = 1000L
+    }
 }

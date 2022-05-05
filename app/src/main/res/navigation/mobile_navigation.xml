@@ -44,11 +44,11 @@
             app:argType="string" />
         <action
             android:id="@+id/action_movieDetailsFragment_to_itemListDialogFragment"
-            app:destination="@id/itemListDialogFragment" />
+            app:destination="@id/scheduleNotificationDialogFragment" />
     </fragment>
     <dialog
-        android:id="@+id/itemListDialogFragment"
-        android:name="com.example.movieapp.presentation.ui.datePickerDialog.ScheduleNotificationDialogFragment"
+        android:id="@+id/scheduleNotificationDialogFragment"
+        android:name="com.example.movieapp.presentation.ui.scheduleNotification.ScheduleNotificationDialogFragment"
         android:label="fragment_item_list_dialog_list_dialog"
         tools:layout="@layout/fragment_item_list_dialog_list_dialog" >
         <argument
