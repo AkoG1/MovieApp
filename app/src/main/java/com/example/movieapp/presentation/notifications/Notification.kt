@@ -38,7 +38,7 @@ class Notification : BroadcastReceiver() {
             .setSmallIcon(R.drawable.ic_movie)
             .setContentTitle(intent.getStringExtra(titleExtra))
             .setContentText(intent.getStringExtra(messageExtra))
-            .setVibrate(longArrayOf(VIBRATE_1_SEC, VIBRATE_1_SEC, VIBRATE_1_SEC))
+            .setVibrate(longArrayOf(VIBRATE_FIRST, VIBRATE_SECOND, VIBRATE_THIRD))
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
@@ -52,6 +52,8 @@ class Notification : BroadcastReceiver() {
     }
 
     companion object {
-        private const val VIBRATE_1_SEC = 1000L
+        private const val VIBRATE_FIRST = 1000L
+        private const val VIBRATE_SECOND = 1000L
+        private const val VIBRATE_THIRD = 1000L
     }
 }

@@ -88,10 +88,6 @@ class MovieNetworkRepositoryImpl(
             }
         }.awaitAll()
 
-        runBlocking {
-
-        }
-
         val errors = result.filterIsInstance<Resource.Error<ActorsResponseDto>>()
 
         return if (errors.isNotEmpty()) {

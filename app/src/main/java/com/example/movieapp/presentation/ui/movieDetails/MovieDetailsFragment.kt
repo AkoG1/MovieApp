@@ -6,7 +6,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
-import com.example.movieapp.app.App.Companion.WARNING
 import com.example.movieapp.databinding.MovieDetailsFragmentBinding
 import com.example.movieapp.domain.model.MovieDetailsModel
 import com.example.movieapp.domain.utils.isOnline
@@ -64,7 +63,7 @@ class MovieDetailsFragment :
     private fun initListeners() {
         binding.watchLater.setOnClickListener {
             val title = binding.titleTV.text
-            if (!title.isNullOrEmpty() && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)) {
+            if (!title.isNullOrEmpty() && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
                 val action =
                     MovieDetailsFragmentDirections
                         .actionMovieDetailsFragmentToItemListDialogFragment(
@@ -74,7 +73,7 @@ class MovieDetailsFragment :
                 findNavController().navigate(action)
             }
             else {
-                makeToastMessage(WARNING)
+                makeToastMessage(getString(R.string.warning))
             }
         }
 

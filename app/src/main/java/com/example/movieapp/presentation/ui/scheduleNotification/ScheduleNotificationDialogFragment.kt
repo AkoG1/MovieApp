@@ -1,11 +1,8 @@
 package com.example.movieapp.presentation.ui.scheduleNotification
 
 import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -16,7 +13,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.navArgs
 import com.example.movieapp.R
-import com.example.movieapp.app.App.Companion.NAME
 import com.example.movieapp.databinding.FragmentItemListDialogListDialogBinding
 import com.example.movieapp.presentation.notifications.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -39,13 +35,13 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun init() {
         binding.timePicker.setIs24HourView(true)
         binding.remindMe.setOnClickListener {

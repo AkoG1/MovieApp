@@ -23,4 +23,6 @@
     <string name="cantLoad">Can not load</string>
     <string name="soon">SOON</string>
     <string name="remind_me">Remind me</string>
+    <string name="channelID">Reminder</string>
+    <string name="warning">Notifications will not work on your device</string>
 </resources>
