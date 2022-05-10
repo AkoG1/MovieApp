@@ -47,13 +47,27 @@
             android:id="@+id/save"
             android:visibility="visible"
             android:layout_width="90dp"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/save_button_background"
-            android:text="@string/save"
+            android:text="@string/favorites"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/guideline1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/watchLater"
+            android:visibility="visible"
+            android:layout_width="90dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="20dp"
+            android:textSize="10sp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/save_button_background"
+            android:text="@string/watchLater"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/save" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/backButton"
