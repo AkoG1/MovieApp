@@ -11,7 +11,7 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.example.movieapp.R
 import com.example.movieapp.presentation.MainActivity
 
-const val reminderNotificationIdExtra = "1"
+const val reminderNotificationIdExtra = "reminderNotificationIdExtra"
 const val channelId = "Reminder"
 const val titleExtra = "TitleExtra"
 const val messageExtra = "MessageExtra"
