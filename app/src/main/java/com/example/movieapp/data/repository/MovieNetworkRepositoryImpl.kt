@@ -13,7 +13,6 @@ import com.example.movieapp.domain.utils.Resource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
 
 class MovieNetworkRepositoryImpl(
     private val networkClient: NetworkClient,
@@ -87,10 +86,6 @@ class MovieNetworkRepositoryImpl(
                 async { requestActorsDetails(actor) }
             }
         }.awaitAll()
-
-        runBlocking {
-
-        }
 
         val errors = result.filterIsInstance<Resource.Error<ActorsResponseDto>>()
 
