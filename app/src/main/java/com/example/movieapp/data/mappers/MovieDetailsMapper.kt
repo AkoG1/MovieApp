@@ -18,6 +18,7 @@ class MovieDetailsMapper(): Mapper<MovieDetailsResponseDto, MovieDetailsModel> {
                 released = released,
                 runtime = runtime,
                 title = title,
+                type = type,
                 year = year
             )
         }

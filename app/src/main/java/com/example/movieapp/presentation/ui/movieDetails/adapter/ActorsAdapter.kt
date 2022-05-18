@@ -17,8 +17,8 @@ class ActorsAdapter : RecyclerView.Adapter<ActorsAdapter.ViewHolder>() {
             val model = actorsDetailsList[position]
             with(binding) {
                 if (model.result != null && model.result.isNotEmpty()) {
-                    nameTV.text = model.result[0].name.toString()
-                    actorsPhoto.setImage("https://image.tmdb.org/t/p/original" + model.result[0].profilePath.toString())
+                    nameTV.text = model.result[ZERO].name.toString()
+                    actorsPhoto.setImage(BASE_IMG_URL + model.result[ZERO].profilePath.toString())
                 }
             }
         }
@@ -40,6 +40,11 @@ class ActorsAdapter : RecyclerView.Adapter<ActorsAdapter.ViewHolder>() {
         this.actorsDetailsList.clear()
         this.actorsDetailsList.addAll(actorsDetailDtos)
         notifyDataSetChanged()
+    }
+
+    companion object {
+        private const val BASE_IMG_URL = "https://image.tmdb.org/t/p/original"
+        private const val ZERO = 0
     }
 
 }

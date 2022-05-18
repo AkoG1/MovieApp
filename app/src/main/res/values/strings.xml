@@ -25,4 +25,10 @@
     <string name="remind_me">Remind me</string>
     <string name="channelID">Reminder</string>
     <string name="warning">Notifications will not work on your device</string>
+    <string name="trailer">Trailer</string>
+    <string name="onlyMovieHasTrailer">Trailer is not available for TV Series</string>
+    <string name="trailerNotAvailable">Trailer is not available</string>
+    <string name="actorsNotAvailable">Actor list is not available</string>
+    <string name="genresNotAvailable">Genre list is not available</string>
+    <string name="detailsNotAvailable">Details are not available</string>
 </resources>

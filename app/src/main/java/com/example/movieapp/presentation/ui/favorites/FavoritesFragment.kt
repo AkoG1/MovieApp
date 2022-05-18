@@ -37,9 +37,9 @@ class FavoritesFragment :
     }
 
     private fun initRecyclerView() {
-        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.favoriteRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         adapter = SavedMoviesAdapter(::onRemoveClicked, ::onClicked)
-        binding.recyclerView.adapter = adapter
+        binding.favoriteRecyclerView.adapter = adapter
     }
 
     private fun onRemoveClicked(movieEntity: MovieEntity) {

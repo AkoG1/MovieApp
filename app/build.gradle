@@ -41,6 +41,9 @@ android {
 }
 
 dependencies {
+    //youtubeVideo
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:11.0.1'
+
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     //room

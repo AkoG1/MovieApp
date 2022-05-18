@@ -10,7 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/coverIV"
@@ -29,44 +30,46 @@
             android:background="@drawable/custom_white_view_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline1" />
+            app:layout_constraintTop_toBottomOf="@id/guideline1"
+            app:layout_constraintVertical_bias="0.05" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/titleTV"
-            android:layout_width="250dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
             android:fontFamily="@font/mulish_regular"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/watchLater"
             app:layout_constraintStart_toStartOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/save"
-            android:visibility="visible"
             android:layout_width="90dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="20dp"
             android:background="@drawable/save_button_background"
             android:text="@string/favorites"
             android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@id/guideline3"
             app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/watchLater"
-            android:visibility="visible"
             android:layout_width="90dp"
-            android:layout_marginTop="10dp"
             android:layout_height="20dp"
-            android:textSize="10sp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/save_button_background"
             android:text="@string/watchLater"
             android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="10sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@id/guideline3"
             app:layout_constraintTop_toBottomOf="@id/save" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -115,10 +118,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
             app:flexDirection="row"
             app:justifyContent="flex_start"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline3"
             app:layout_constraintStart_toStartOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/starIcon">
 
@@ -162,17 +164,6 @@
         </com.google.android.flexbox.FlexboxLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/lengthTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/length"
-            android:textColor="@color/grey"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@id/guideline2"
-            app:layout_constraintTop_toBottomOf="@id/flexbox" />
-
-        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/languageTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -180,8 +171,19 @@
             android:text="@string/language"
             android:textColor="@color/grey"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@id/ratingTV"
-            app:layout_constraintStart_toEndOf="@id/lengthTV"
+            app:layout_constraintStart_toEndOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@id/flexbox" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/lengthTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/length"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/guideline3"
+            app:layout_constraintStart_toEndOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/flexbox" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -192,19 +194,8 @@
             android:text="@string/rating"
             android:textColor="@color/grey"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/languageTV"
+            app:layout_constraintEnd_toEndOf="@id/guideline3"
             app:layout_constraintTop_toBottomOf="@id/flexbox" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/lengthTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@id/guideline2"
-            app:layout_constraintTop_toBottomOf="@id/lengthTV" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/languageTextView"
@@ -214,7 +205,17 @@
             android:maxWidth="120dp"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@id/languageTV"
+            app:layout_constraintStart_toEndOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@id/languageTV" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/lengthTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/lengthTV"
             app:layout_constraintTop_toBottomOf="@id/lengthTV" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -244,10 +245,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="25dp"
             android:maxHeight="150dp"
             android:textColor="@color/grey"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline3"
             app:layout_constraintStart_toEndOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/descriptionHeader" />
 
@@ -273,21 +273,20 @@
             app:layout_constraintTop_toBottomOf="@id/description" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/actors_recycler_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="25dp"
             android:maxHeight="50dp"
             android:orientation="horizontal"
             android:paddingBottom="8dp"
             android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guideline3"
             app:layout_constraintStart_toStartOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/castHeader" />
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/main_progress_bar"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:visibility="invisible"
@@ -295,6 +294,37 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/trailerHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/merriweather_black"
+            android:text="@string/trailer"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@id/actors_recycler_view" />
+
+        <ProgressBar
+            android:id="@+id/trailerProgressBar"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toEndOf="@id/trailerHeader"
+            app:layout_constraintTop_toBottomOf="@id/actors_recycler_view" />
+
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            android:id="@+id/ytVideoView"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/guideline3"
+            app:layout_constraintStart_toEndOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@id/trailerHeader" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline1"
@@ -309,6 +339,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

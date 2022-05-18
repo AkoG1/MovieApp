@@ -13,4 +13,6 @@ sealed class Resource<out T> {
 
     object Idle : Resource<Nothing>()
 
+    class Null<T>() : Resource<T>()
+
 }

@@ -21,11 +21,15 @@ class App : Application() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(getString(R.string.channelID), getString(R.string.app_name), importance)
-            channel.description = ScheduleNotificationDialogFragment.DESCRIPTION
+            channel.description = DESCRIPTION
             val notificationManager =
                 getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    companion object {
+        const val DESCRIPTION = "MovieApp"
     }
 
 }

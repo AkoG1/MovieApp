@@ -7,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.movieapp.data.room.entity.MovieEntity
 import com.example.movieapp.domain.model.ActorsModel
 import com.example.movieapp.domain.model.MovieDetailsModel
+import com.example.movieapp.domain.model.MovieTrailer
 import com.example.movieapp.domain.use_cases.check_movie_in_db.CheckMovieInDbUseCase
 import com.example.movieapp.domain.use_cases.get_actors_details.GetActorsDetailsUseCase
 import com.example.movieapp.domain.use_cases.get_movie_details.GetMovieDetailsUseCase
 import com.example.movieapp.domain.use_cases.get_movie_from_db.GetMovieFromDbUseCase
+import com.example.movieapp.domain.use_cases.request_movie_trailer.RequestMovieTrailerUseCase
 import com.example.movieapp.domain.use_cases.save_in_db.SaveInDbUseCase
 import com.example.movieapp.domain.utils.Resource
 import kotlinx.coroutines.launch
@@ -20,7 +22,8 @@ class MovieDetailsViewModel(
     private val saveToDbUseCase: SaveInDbUseCase,
     private val actorsRepository: GetActorsDetailsUseCase,
     private val getMovieFromDb: GetMovieFromDbUseCase,
-    private val checkMovieInDb: CheckMovieInDbUseCase
+    private val checkMovieInDb: CheckMovieInDbUseCase,
+    private val requestMovieTrailer: RequestMovieTrailerUseCase
 ) : ViewModel() {
 
     private val _movieDetails = MutableLiveData<Resource<MovieDetailsModel>>(Resource.Idle)
@@ -31,6 +34,9 @@ class MovieDetailsViewModel(
 
     private val _movieDetailsFromDb = MutableLiveData<MovieDetailsModel>()
     val movieDetailsFromDb: LiveData<MovieDetailsModel> get() = _movieDetailsFromDb
+
+    private val _movieTrailer = MutableLiveData<Resource<MovieTrailer>>()
+    val movieTrailer: LiveData<Resource<MovieTrailer>> get() = _movieTrailer
 
     private val _checkInDb = MutableLiveData<Boolean>()
     val checkInDb: LiveData<Boolean> get() = _checkInDb
@@ -72,7 +78,7 @@ class MovieDetailsViewModel(
             country = null,
             director = null,
             imdbVotes = null,
-            type = null
+            type = movie.type
         )
     }
 
@@ -90,12 +96,19 @@ class MovieDetailsViewModel(
             runtime = movie.runtime,
             title = movie.title,
             year = movie.year,
+            type = movie.type
         )
     }
 
     fun getMovieById(imdbId: String) {
         viewModelScope.launch {
             _movieDetailsFromDb.value = dataClassTransform(getMovieFromDb.getMovieById(imdbId))
+        }
+    }
+
+    fun requestMovieTrailer(imdbId: String) {
+        viewModelScope.launch {
+            _movieTrailer.value = requestMovieTrailer.requestMovieTrailer(imdbId)
         }
     }
 

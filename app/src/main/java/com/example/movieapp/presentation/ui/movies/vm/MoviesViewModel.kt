@@ -28,4 +28,5 @@ class MoviesViewModel(private val getSearchedMovies: GetSearchedMoviesUseCase) :
     fun clearLiveData() {
         _searchedMovies.value = Resource.Idle
     }
+
 }

@@ -54,7 +54,7 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
     @RequiresApi(Build.VERSION_CODES.M)
     private fun scheduleNotification() {
         val intent = Intent(requireContext(), Notification::class.java)
-        val message = getString(R.string.default_message) + " ${safeArgs.title}"
+        val message = getString(R.string.default_message) + safeArgs.title
         val uniqueNotificationId = generateUniqueId()
         intent.putExtra(titleExtra, getString(R.string.Title))
         intent.putExtra(messageExtra, message)
@@ -94,9 +94,5 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        const val DESCRIPTION = "MovieApp"
     }
 }

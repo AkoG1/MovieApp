@@ -20,9 +20,7 @@ const val GROUP = "watchReminder"
 const val ID = "id"
 
 class Notification : BroadcastReceiver() {
-
     override fun onReceive(context: Context, intent: Intent) {
-
         val pendingIntent = NavDeepLinkBuilder(context)
             .setComponentName(MainActivity::class.java)
             .setGraph(R.navigation.mobile_navigation)
