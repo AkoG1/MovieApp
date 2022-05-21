@@ -19,4 +19,10 @@ object NetworkClient {
     val actorsDetailsApiService: ActorsDetailsApiService =
         provideGson().baseUrl(BASE_URL_TMDB_API).build().create(ActorsDetailsApiService::class.java)
 
+    val movieExternalIdApiService: MovieExternalIdApiService =
+        provideGson().baseUrl(BASE_URL_TMDB_API).build().create(MovieExternalIdApiService:: class.java)
+
+    val movieTrailerApiService: MovieTrailerApiService =
+        provideGson().baseUrl(BASE_URL_TMDB_API).build().create(MovieTrailerApiService:: class.java)
+
 }

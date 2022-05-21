@@ -3,6 +3,7 @@ package com.example.movieapp.presentation.ui.movies
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentMoviesBinding
 import com.example.movieapp.presentation.base.BaseFragment
 import com.example.movieapp.presentation.ui.movies.adapter.SearchedMoviesAdapter
@@ -18,8 +19,8 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
 
     override fun init() {
         swipeRefreshListener()
+        initActorsRecyclerView()
         initSearchBar()
-        initRecyclerView()
         observe()
     }
 
@@ -37,17 +38,17 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
 
     private fun initSearchBar() {
         binding.searchBar.addTextChangedListener {
-            if (it.toString().isNotEmpty() && it.toString().length >= 4)
+            if (it.toString().isNotEmpty() && it.toString().length >= MINIMUM_CHARS) {
                 requestMovies(it.toString())
-            else
+            } else
                 viewModel.clearLiveData()
         }
     }
 
-    private fun initRecyclerView() {
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    private fun initActorsRecyclerView() {
+        binding.actorsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = SearchedMoviesAdapter(::onMovieClick)
-        binding.recyclerView.adapter = adapter
+        binding.actorsRecyclerView.adapter = adapter
     }
 
     private fun requestMovies(searchedText: String) {
@@ -58,16 +59,11 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
         viewModel.searchedMovies.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
-                    with(binding) {
-                        adapter.setData(it.data)
-                        swipeRefresh.isRefreshing = false
-                    }
+                    adapter.setData(it.data)
+                    binding.swipeRefresh.isRefreshing = false
                 }
                 is Resource.Error -> {
-                    with(binding) {
-                        it.message?.let { it1 -> makeToastMessage(it1) }
-                        swipeRefresh.isRefreshing = false
-                    }
+                    binding.swipeRefresh.isRefreshing = false
                 }
                 is Resource.Loading -> {
                     binding.swipeRefresh.isRefreshing = true
@@ -75,7 +71,12 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
                 is Resource.Idle -> {
                     binding.swipeRefresh.isRefreshing = false
                 }
+                else -> {makeToastMessage(getString(R.string.unknownError))}
             }
         }
+    }
+
+    companion object {
+        private const val MINIMUM_CHARS = 4
     }
 }

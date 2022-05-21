@@ -11,11 +11,24 @@
     <string name="cast">Cast</string>
     <string name="imdb">/10 IMDB</string>
     <string name="unknownError">Unknown Error</string>
+    <string name="Title">Reminder</string>
+    <string name="Scheduled">Reminder scheduled</string>
+    <string name="default_message">You scheduled to watch </string>
     <string name="cantSave">Can not save</string>
     <string name="pleaseWait">Please Wait</string>
     <string name="addedToDB">Added Successfully</string>
     <string name="remove">X</string>
-    <string name="save">SAVE</string>
+    <string name="favorites">Favorite</string>
+    <string name="watchLater">Watch Later</string>
     <string name="cantLoad">Can not load</string>
     <string name="soon">SOON</string>
+    <string name="remind_me">Remind me</string>
+    <string name="channelID">Reminder</string>
+    <string name="warning">Notifications will not work on your device</string>
+    <string name="trailer">Trailer</string>
+    <string name="onlyMovieHasTrailer">Trailer is not available for TV Series</string>
+    <string name="trailerNotAvailable">Trailer is not available</string>
+    <string name="actorsNotAvailable">Actor list is not available</string>
+    <string name="genresNotAvailable">Genre list is not available</string>
+    <string name="detailsNotAvailable">Details are not available</string>
 </resources>

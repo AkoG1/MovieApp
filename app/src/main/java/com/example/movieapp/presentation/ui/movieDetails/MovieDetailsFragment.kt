@@ -1,5 +1,8 @@
 package com.example.movieapp.presentation.ui.movieDetails
 
+import android.os.Build
+import android.view.View
+import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,6 +16,8 @@ import com.example.movieapp.presentation.ui.movieDetails.adapter.ActorsAdapter
 import com.example.movieapp.presentation.ui.movieDetails.vm.MovieDetailsViewModel
 import com.example.movieapp.domain.utils.Resource
 import com.example.movieapp.domain.utils.extensions.setImage
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieDetailsFragment :
@@ -29,10 +34,9 @@ class MovieDetailsFragment :
         initRecyclerView()
         initListeners()
         if (isOnline(requireContext())) {
-            getMovieDetails()
+            getMovieDetails(safeArgs.id)
             observeWholeData()
-            observeActorsDetails()
-            binding.save.isVisible = true
+            makeSaveButtonVisible()
         } else if (!isOnline(requireContext())) {
             observeCheckDb()
         }
@@ -42,54 +46,39 @@ class MovieDetailsFragment :
         viewModel.checkMovieInDB(safeArgs.id)
     }
 
-    private fun observeCheckDb() {
-        viewModel.checkInDb.observe(viewLifecycleOwner) {
-            if (it) {
-                getMovieDetailsFromDB()
-                binding.save.isClickable = false
-            } else
-                makeToastMessage(getString(R.string.cantLoad))
-        }
-    }
-
     private fun initRecyclerView() {
-        binding.recyclerView.layoutManager =
+        binding.actorsRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         adapter = ActorsAdapter()
-        binding.recyclerView.adapter = adapter
+        binding.actorsRecyclerView.adapter = adapter
     }
 
     private fun initListeners() {
+        binding.watchLater.setOnClickListener {
+            val title = binding.titleTV.text
+            if (!title.isNullOrEmpty() && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
+                val action =
+                    MovieDetailsFragmentDirections
+                        .actionMovieDetailsFragmentToItemListDialogFragment(
+                            title.toString(),
+                            safeArgs.id
+                        )
+                findNavController().navigate(action)
+            } else {
+                makeToastMessage(getString(R.string.warning))
+            }
+        }
+
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
         binding.save.setOnClickListener {
-            when (viewModel.movieDetails.value) {
-                is Resource.Success -> {
-                    viewModel.saveMovie((viewModel.movieDetails.value as Resource.Success<MovieDetailsModel>).data)
-                    binding.save.isClickable = false
-                    makeToastMessage(getString(R.string.addedToDB))
-                }
-                is Resource.Error -> {
-                    makeToastMessage(getString(R.string.cantSave))
-                    binding.save.isClickable = false
-                }
-                is Resource.Loading -> {
-                    makeToastMessage(getString(R.string.pleaseWait))
-                }
-                is Resource.Idle -> {
-                    makeToastMessage(getString(R.string.pleaseWait))
-                }
-            }
+            saveInDb()
         }
     }
 
-    private fun getMovieDetails() {
-        viewModel.getMovieDetails(id = safeArgs.id)
-    }
-
-    private fun getActorsDetails(actors: String) {
-        viewModel.getActorsDetails(actors = actors)
+    private fun getMovieDetails(id: String) {
+        viewModel.getMovieDetails(id)
     }
 
     private fun observeWholeData() {
@@ -100,46 +89,79 @@ class MovieDetailsFragment :
                 }
                 is Resource.Error -> {
                     it.message?.let { message -> makeToastMessage(message) }
-                    binding.progressBar.isVisible = false
+                    hideProgressBar(binding.mainProgressBar)
                 }
                 is Resource.Loading -> {
-                    binding.progressBar.isVisible = true
+                    appearProgressBar(binding.mainProgressBar)
                 }
                 is Resource.Idle -> {}
+                else -> {
+                    makeToastMessage(getString(R.string.detailsNotAvailable))
+                }
             }
         }
     }
 
-    private fun successObserve(it: MovieDetailsModel) {
-        with(binding) {
-            titleTV.text = it.title
-            imdbRating.text = it.imdbRating
-            lengthTextView.text = it.runtime
-            languageTextView.text = it.language
-            ratingTextView.text = it.rated
-            description.text = it.plot
-            coverIV.setImage(it.poster)
-            it.actors?.let { name -> getActorsDetails(name) }
-            if (!it.genre.isNullOrEmpty()) {
-                val genre = it.genre.split(",").map { it.trim() }
-                when (genre.size) {
-                    0 -> {}
-                    1 -> genreTV.text = genre[0]
-                    2 -> {
-                        genreTV.text = genre[0]
-                        genre2TV.isVisible = true
-                        genre2TV.text = genre[1]
-                    }
-                    3 -> {
-                        genreTV.text = genre[0]
-                        genre2TV.isVisible = true
-                        genre2TV.text = genre[1]
-                        genre3TV.isVisible = true
-                        genre3TV.text = genre[2]
-                    }
-                }
+    private fun makeSaveButtonVisible() {
+        binding.save.isVisible = true
+    }
+
+    private fun observeCheckDb() {
+        viewModel.checkInDb.observe(viewLifecycleOwner) {
+            if (it) {
+                getMovieDetailsFromDB()
+                binding.save.isClickable = false
+            } else
+                detailsNotAvailable(getString(R.string.detailsNotAvailable))
+        }
+    }
+
+    //end of init() functions
+
+    private fun saveInDb() {
+        when (viewModel.movieDetails.value) {
+            is Resource.Success -> {
+                viewModel.saveMovie((viewModel.movieDetails.value as Resource.Success<MovieDetailsModel>).data)
+                binding.save.isClickable = false
+                makeToastMessage(getString(R.string.addedToDB))
             }
-            progressBar.isVisible = false
+            is Resource.Error -> {
+                makeToastMessage(getString(R.string.cantSave))
+                binding.save.isClickable = false
+            }
+            is Resource.Loading -> {
+                makeToastMessage(getString(R.string.pleaseWait))
+            }
+            is Resource.Idle -> {
+                makeToastMessage(getString(R.string.pleaseWait))
+            }
+            else -> {makeToastMessage(getString(R.string.unknownError))}
+        }
+    }
+
+    private fun successObserve(movieDetails: MovieDetailsModel) {
+        with(binding) {
+            titleTV.text = movieDetails.title
+            imdbRating.text = movieDetails.imdbRating
+            lengthTextView.text = movieDetails.runtime
+            languageTextView.text = movieDetails.language
+            ratingTextView.text = movieDetails.rated
+            description.text = movieDetails.plot
+            coverIV.setImage(movieDetails.poster)
+            movieDetails.actors?.let { name ->
+                getActorsDetails(name)
+                observeActorsDetails()
+            }
+            if (!movieDetails.genre.isNullOrEmpty()) {
+                successfulGenreObserve(movieDetails.genre, this)
+            } else {
+                hideAttributeAndMakeToast(binding.flexbox, getString(R.string.genresNotAvailable))
+            }
+            hideProgressBar(binding.mainProgressBar)
+            movieDetails.type?.let { type ->
+                getMovieTrailer(safeArgs.id, type)
+                observeMovieTrailer()
+            }
         }
     }
 
@@ -150,22 +172,151 @@ class MovieDetailsFragment :
         }
     }
 
+    private fun detailsNotAvailable(message: String) {
+        makeToastMessage(message)
+        with(binding) {
+            save.isClickable = false
+            watchLater.isClickable = false
+            titleTV.text = getString(R.string.detailsNotAvailable)
+        }
+    }
+
+    private fun observeMovieTrailer() {
+        viewModel.movieTrailer.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    if (!it.data.result.isNullOrEmpty()) {
+                        val list = it.data.result
+                        for (i in list.indices) {
+                            if (list[i].type == TRAILER) {
+                                initYoutubePlayer(list[i].key!!)
+                                break
+                            } else if (i == list.lastIndex) {
+                                tvSeriesTrailerNotAvailable(getString(R.string.trailerNotAvailable))
+                            }
+                        }
+                    } else {
+                        tvSeriesTrailerNotAvailable(getString(R.string.trailerNotAvailable))
+                    }
+                }
+                is Resource.Error -> {
+                    tvSeriesTrailerNotAvailable(it.message!!)
+                }
+                else -> {
+                    tvSeriesTrailerNotAvailable(getString(R.string.trailerNotAvailable))
+                }
+            }
+        }
+    }
+
+    private fun initYoutubePlayer(youtubeId: String) {
+        lifecycle.addObserver(binding.ytVideoView)
+        binding.ytVideoView.addYouTubePlayerListener(object :
+            AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                binding.ytVideoView.visibility = View.VISIBLE
+                youTubePlayer.cueVideo(youtubeId, ZERO.toFloat())
+                binding.trailerProgressBar.visibility = View.GONE
+            }
+        }
+        )
+    }
+
+    private fun getActorsDetails(actors: String) {
+        viewModel.getActorsDetails(actors = actors)
+    }
+
+    private fun successfulGenreObserve(
+        genres: String,
+        movieDetailsFragmentBinding: MovieDetailsFragmentBinding,
+    ) {
+        with(movieDetailsFragmentBinding) {
+            val genre = genres.split(COMMA).map { it.trim() }
+            when (genre.size) {
+                ZERO -> {}
+                ONE -> genreTV.text = genre.first()
+                TWO -> {
+                    genreTV.text = genre.first()
+                    genre2TV.isVisible = true
+                    genre2TV.text = genre[ONE]
+                }
+                THREE -> {
+                    genreTV.text = genre.first()
+                    genre2TV.isVisible = true
+                    genre2TV.text = genre[ONE]
+                    genre3TV.isVisible = true
+                    genre3TV.text = genre[TWO]
+                }
+            }
+        }
+    }
+
+    private fun getMovieTrailer(imdbId: String, type: String) {
+        if (type == MOVIE)
+            viewModel.requestMovieTrailer(imdbId)
+        else {
+            tvSeriesTrailerNotAvailable(getString(R.string.onlyMovieHasTrailer))
+        }
+    }
+
+    private fun tvSeriesTrailerNotAvailable(message: String) {
+        binding.trailerHeader.text = message
+        binding.trailerHeader.textSize = THIRTEEN
+        binding.ytVideoView.visibility = View.GONE
+        binding.trailerProgressBar.isVisible = false
+    }
+
     private fun observeActorsDetails() {
         viewModel.actorsDetails.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
                     adapter.setData(it.data)
-                    binding.actorsProgressBar.isVisible = false
+                    hideProgressBar(binding.actorsProgressBar)
                 }
                 is Resource.Error -> {
-                    it.message?.let { it1 -> makeToastMessage(it1) }
-                    binding.actorsProgressBar.isVisible = false
+                    it.message?.let { message -> makeToastMessage(message) }
+                    hideProgressBar(binding.actorsProgressBar)
                 }
                 is Resource.Loading -> {
-                    binding.actorsProgressBar.isVisible = true
+                    appearProgressBar(binding.actorsProgressBar)
                 }
-                is Resource.Idle -> {}
+                is Resource.Idle -> {appearProgressBar(binding.actorsProgressBar)}
+                else -> {
+                    hideAttributeAndMakeToast(
+                        binding.actorsRecyclerView,
+                        getString(R.string.actorsNotAvailable)
+                    )
+                }
             }
         }
+    }
+
+    private fun hideAttributeAndMakeToast(attribute: View, message: String?) {
+        attribute.visibility = View.GONE
+        message?.let { makeToastMessage(message) }
+    }
+
+    private fun appearProgressBar(progressBar: ProgressBar) {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar(progressBar: ProgressBar) {
+        progressBar.visibility = View.GONE
+    }
+
+    override fun onDestroyView() {
+        binding.ytVideoView.release()
+        super.onDestroyView()
+    }
+
+    companion object {
+        private const val MOVIE = "movie"
+        private const val TRAILER = "Trailer"
+        private const val ZERO = 0
+        private const val ONE = 1
+        private const val TWO = 2
+        private const val THREE = 3
+        private const val THIRTEEN = 13F
+        private const val COMMA = ","
     }
 }

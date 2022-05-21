@@ -12,5 +12,6 @@ data class MovieDetailsModel(
     val released: String?,
     val runtime: String?,
     val title: String?,
+    val type: String?,
     val year: String?
 )

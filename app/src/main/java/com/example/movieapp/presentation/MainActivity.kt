@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
@@ -45,11 +44,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun showBottomNav() {
         binding.navView.visibility = View.VISIBLE
-
     }
 
     private fun hideBottomNav() {
         binding.navView.visibility = View.GONE
-
     }
 }
