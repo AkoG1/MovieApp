@@ -1,7 +1,7 @@
 package com.example.movieapp.data.repository
 
-import com.example.movieapp.data.dto.ActorsResponseDto
-import com.example.movieapp.data.mappers.*
+import com.example.movieapp.data.dto.*
+import com.example.movieapp.data.mappers.Mapper
 import com.example.movieapp.data.network.NetworkClient
 import com.example.movieapp.domain.model.*
 import com.example.movieapp.domain.repository.MovieNetworkRepository
@@ -12,11 +12,11 @@ import kotlinx.coroutines.coroutineScope
 
 class MovieNetworkRepositoryImpl(
     private val networkClient: NetworkClient,
-    private val movieDetailsMapper: MovieDetailsMapper,
-    private val actorsModelMapper: ActorsModelMapper,
-    private val searchedItemsModelMapper: SearchedItemsModelMapper,
-    private val movieExternalIdMapper: MovieExternalIdMapper,
-    private val movieTrailerMapper: MovieTrailerMapper
+    private val movieDetailsMapper: Mapper<MovieDetailsResponseDto, MovieDetailsModel>,
+    private val actorsModelMapper: Mapper<ActorsResponseDto, ActorsModel>,
+    private val searchedItemsModelMapper: Mapper<SearchedItemsResponseDto, SearchedItemsModel>,
+    private val movieExternalIdMapper: Mapper<MovieExternalIdDto, MovieExternalId>,
+    private val movieTrailerMapper: Mapper<MovieTrailerDto, MovieTrailer>
 ) : MovieNetworkRepository {
 
     override suspend fun getSearchedMovies(searchedText: String): Resource<List<MovieDetailsModel>> {
@@ -134,15 +134,10 @@ class MovieNetworkRepositoryImpl(
     }
 
     override suspend fun requestMovieTrailer(imdbId: String): Resource<MovieTrailer> {
-        val externalId = coroutineScope {
-            async { getMovieExternalId(imdbId) }
-        }.await()
 
-        return when (externalId) {
+        return when (val externalId = getMovieExternalId(imdbId)) {
             is Resource.Success -> {
-                val movieTrailer = coroutineScope {
-                    async { getMovieTrailer(externalId.data.id.toString()) }
-                }.await()
+                val movieTrailer = getMovieTrailer(externalId.data.id.toString())
                 movieTrailer
             }
             is Resource.Error -> {

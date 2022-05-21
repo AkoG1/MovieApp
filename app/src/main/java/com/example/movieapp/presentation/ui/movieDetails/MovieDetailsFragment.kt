@@ -191,7 +191,7 @@ class MovieDetailsFragment :
                             if (list[i].type == TRAILER) {
                                 initYoutubePlayer(list[i].key!!)
                                 break
-                            } else if (i == list.size - ONE) {
+                            } else if (i == list.lastIndex) {
                                 tvSeriesTrailerNotAvailable(getString(R.string.trailerNotAvailable))
                             }
                         }
@@ -234,14 +234,14 @@ class MovieDetailsFragment :
             val genre = genres.split(COMMA).map { it.trim() }
             when (genre.size) {
                 ZERO -> {}
-                ONE -> genreTV.text = genre[ZERO]
+                ONE -> genreTV.text = genre.first()
                 TWO -> {
-                    genreTV.text = genre[ZERO]
+                    genreTV.text = genre.first()
                     genre2TV.isVisible = true
                     genre2TV.text = genre[ONE]
                 }
                 THREE -> {
-                    genreTV.text = genre[ZERO]
+                    genreTV.text = genre.first()
                     genre2TV.isVisible = true
                     genre2TV.text = genre[ONE]
                     genre3TV.isVisible = true

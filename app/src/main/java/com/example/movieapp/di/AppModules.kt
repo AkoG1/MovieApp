@@ -37,7 +37,16 @@ val appModules = module {
 
     factory<MovieDbRepository> { MovieDbRepositoryImpl(get()) }
 
-    factory<MovieNetworkRepository> { MovieNetworkRepositoryImpl(get(), get(), get(), get(), get(), get()) }
+    factory<MovieNetworkRepository> {
+        MovieNetworkRepositoryImpl(
+            get(),
+            get(MovieDetailsMapperImpl::class),
+            get(ActorsModelMapperImpl::class),
+            get(SearchedItemsModelMapperImpl::class),
+            get(MovieExternalIdMapperImpl::class),
+            get(MovieTrailerMapperImpl::class)
+        )
+    }
 }
 
 val viewModels = module {
@@ -67,13 +76,13 @@ val database = module {
 
 val mappers = module {
 
-    single { ResultMapper() }
-    single { ActorsModelMapper(get()) }
-    single { MovieDetailsMapper() }
-    single { SearchedItemsModelMapper(get()) }
-    single { SearchMapper() }
-    single { MovieExternalIdMapper() }
-    single { MovieTrailerResultMapper() }
-    single { MovieTrailerMapper(get()) }
+    single { ResultMapperImpl() }
+    single { ActorsModelMapperImpl(get()) }
+    single { MovieDetailsMapperImpl() }
+    single { SearchedItemsModelMapperImpl(get()) }
+    single { SearchMapperImpl() }
+    single { MovieExternalIdMapperImpl() }
+    single { MovieTrailerResultMapperImpl() }
+    single { MovieTrailerMapperImpl(get()) }
 
 }
