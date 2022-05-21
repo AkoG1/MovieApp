@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.navArgs
 import com.example.movieapp.R
-import com.example.movieapp.databinding.FragmentItemListDialogListDialogBinding
+import com.example.movieapp.databinding.ScheduleNotificationDialogFragmentBinding
 import com.example.movieapp.presentation.notifications.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.*
@@ -22,7 +22,7 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
 
     private val safeArgs: ScheduleNotificationDialogFragmentArgs by navArgs()
 
-    private var _binding: FragmentItemListDialogListDialogBinding? = null
+    private var _binding: ScheduleNotificationDialogFragmentBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -30,7 +30,7 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentItemListDialogListDialogBinding.inflate(inflater, container, false)
+        _binding = ScheduleNotificationDialogFragmentBinding.inflate(inflater, container, false)
         return binding.root
 
     }
