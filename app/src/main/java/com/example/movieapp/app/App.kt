@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.os.Build
 import com.example.movieapp.R
 import com.example.movieapp.di.*
-import com.example.movieapp.presentation.ui.scheduleNotification.ScheduleNotificationDialogFragment
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

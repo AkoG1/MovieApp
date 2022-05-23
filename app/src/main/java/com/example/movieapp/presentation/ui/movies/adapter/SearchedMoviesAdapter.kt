@@ -4,13 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.databinding.MoviesRecyclerItemBinding
 import com.example.movieapp.domain.model.MovieDetailsModel
 import com.example.movieapp.domain.utils.extensions.setImage
 
 class SearchedMoviesAdapter(private val onMovieClick: (id: String) -> Unit) :
-    RecyclerView.Adapter<SearchedMoviesAdapter.ViewHolder>() {
+    ListAdapter<MovieDetailsModel, SearchedMoviesAdapter.ViewHolder>(
+        DetailsDiffUtil
+    ) {
 
     private val searchedMovies = mutableListOf<MovieDetailsModel>()
 
@@ -62,10 +66,20 @@ class SearchedMoviesAdapter(private val onMovieClick: (id: String) -> Unit) :
 
     override fun getItemCount() = searchedMovies.size
 
-    fun setData(searchedMovies: List<MovieDetailsModel>) {
-        this.searchedMovies.clear()
-        this.searchedMovies.addAll(searchedMovies)
-        notifyDataSetChanged()
+    object DetailsDiffUtil : DiffUtil.ItemCallback<MovieDetailsModel>() {
+        override fun areItemsTheSame(
+            oldItem: MovieDetailsModel,
+            newItem: MovieDetailsModel
+        ): Boolean {
+            return oldItem.imdbID == newItem.imdbID
+        }
+
+        override fun areContentsTheSame(
+            oldItem: MovieDetailsModel,
+            newItem: MovieDetailsModel
+        ): Boolean {
+            return oldItem == newItem
+        }
     }
 
     companion object {

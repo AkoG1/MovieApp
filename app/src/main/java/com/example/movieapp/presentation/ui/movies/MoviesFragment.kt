@@ -59,7 +59,7 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
         viewModel.searchedMovies.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
-                    adapter.setData(it.data)
+                    adapter.submitList(it.data)
                     binding.swipeRefresh.isRefreshing = false
                 }
                 is Resource.Error -> {

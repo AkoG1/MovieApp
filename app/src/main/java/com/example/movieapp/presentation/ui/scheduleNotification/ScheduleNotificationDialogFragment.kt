@@ -89,8 +89,6 @@ class ScheduleNotificationDialogFragment : BottomSheetDialogFragment() {
         return calendar.timeInMillis
     }
 
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
