@@ -1,6 +1,8 @@
 package com.example.movieapp.presentation.ui.movies
 
+import android.util.Log
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
@@ -8,7 +10,12 @@ import com.example.movieapp.databinding.FragmentMoviesBinding
 import com.example.movieapp.presentation.base.BaseFragment
 import com.example.movieapp.presentation.ui.movies.adapter.SearchedMoviesAdapter
 import com.example.movieapp.domain.utils.Resource
+import com.example.movieapp.presentation.extensions.onTextChangedListener
 import com.example.movieapp.presentation.ui.movies.vm.MoviesViewModel
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding::inflate) {
@@ -36,13 +43,12 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
         findNavController().navigate(action)
     }
 
+    @OptIn(FlowPreview::class)
     private fun initSearchBar() {
-        binding.searchBar.addTextChangedListener {
-            if (it.toString().isNotEmpty() && it.toString().length >= MINIMUM_CHARS) {
-                requestMovies(it.toString())
-            } else
-                viewModel.clearLiveData()
-        }
+        binding.searchBar.onTextChangedListener(MINIMUM_CHARS).debounce(1000).onEach {
+            val text = binding.searchBar.text.toString()
+            requestMovies(text)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun initActorsRecyclerView() {
@@ -71,7 +77,9 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
                 is Resource.Idle -> {
                     binding.swipeRefresh.isRefreshing = false
                 }
-                else -> {makeToastMessage(getString(R.string.unknownError))}
+                else -> {
+                    makeToastMessage(getString(R.string.unknownError))
+                }
             }
         }
     }
