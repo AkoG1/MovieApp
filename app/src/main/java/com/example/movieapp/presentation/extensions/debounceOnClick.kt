@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.callbackFlow
 
 @OptIn(ExperimentalCoroutinesApi::class)
 fun EditText.onTextChangedListener(minLength: Int) =
-    callbackFlow<Unit> {
+    callbackFlow {
         addTextChangedListener {
             if (it != null) {
                 if (it.length >= minLength)
