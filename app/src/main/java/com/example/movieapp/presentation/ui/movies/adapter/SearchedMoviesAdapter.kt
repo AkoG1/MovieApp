@@ -16,12 +16,10 @@ class SearchedMoviesAdapter(private val onMovieClick: (id: String) -> Unit) :
         DetailsDiffUtil
     ) {
 
-    private val searchedMovies = mutableListOf<MovieDetailsModel>()
-
     inner class ViewHolder(private val binding: MoviesRecyclerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(position: Int) {
-            val model = searchedMovies[position]
+            val model = getItem(position)
             with(binding) {
                 titleTV.text = model.title
                 coverIV.setImage(model.poster)
@@ -63,8 +61,6 @@ class SearchedMoviesAdapter(private val onMovieClick: (id: String) -> Unit) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.onBind(position)
     }
-
-    override fun getItemCount() = searchedMovies.size
 
     object DetailsDiffUtil : DiffUtil.ItemCallback<MovieDetailsModel>() {
         override fun areItemsTheSame(

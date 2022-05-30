@@ -1,15 +1,17 @@
 package com.example.movieapp.presentation.ui.movies
 
-import androidx.core.widget.addTextChangedListener
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentMoviesBinding
+import com.example.movieapp.domain.utils.Resource
 import com.example.movieapp.presentation.base.BaseFragment
 import com.example.movieapp.presentation.ui.movies.adapter.SearchedMoviesAdapter
-import com.example.movieapp.domain.utils.Resource
 import com.example.movieapp.presentation.ui.movies.vm.MoviesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding::inflate) {
 
@@ -37,12 +39,29 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
     }
 
     private fun initSearchBar() {
-        binding.searchBar.addTextChangedListener {
-            if (it.toString().isNotEmpty() && it.toString().length >= MINIMUM_CHARS) {
-                requestMovies(it.toString())
-            } else
-                viewModel.clearLiveData()
+        val searchBarTextWatcher: TextWatcher = object : TextWatcher {
+            private var timer = Timer()
+            private val DELAY: Long = 1000L
+
+            override fun afterTextChanged(s: Editable?) {
+                timer.cancel()
+                timer = Timer()
+                timer.schedule(object : TimerTask() {
+                    override fun run() {
+                        if (binding.searchBar.text?.length!! >= MINIMUM_CHARS)
+                            requestMovies(binding.searchBar.text.toString())
+                    }
+                }, DELAY)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
         }
+        binding.searchBar.addTextChangedListener(searchBarTextWatcher)
     }
 
     private fun initActorsRecyclerView() {
@@ -60,20 +79,26 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
             when (it) {
                 is Resource.Success -> {
                     adapter.submitList(it.data)
-                    binding.swipeRefresh.isRefreshing = false
+                    isProgressBarVisible(false)
                 }
                 is Resource.Error -> {
-                    binding.swipeRefresh.isRefreshing = false
+                    isProgressBarVisible(false)
                 }
                 is Resource.Loading -> {
-                    binding.swipeRefresh.isRefreshing = true
+                    isProgressBarVisible(true)
                 }
                 is Resource.Idle -> {
-                    binding.swipeRefresh.isRefreshing = false
+                    isProgressBarVisible(false)
                 }
-                else -> {makeToastMessage(getString(R.string.unknownError))}
+                else -> {
+                    makeToastMessage(getString(R.string.unknownError))
+                }
             }
         }
+    }
+
+    private fun isProgressBarVisible(boolean: Boolean) {
+        binding.swipeRefresh.isRefreshing = boolean
     }
 
     companion object {

@@ -13,7 +13,7 @@
     <string name="unknownError">Unknown Error</string>
     <string name="Title">Reminder</string>
     <string name="Scheduled">Reminder scheduled</string>
-    <string name="default_message">You scheduled to watch</string>
+    <string name="default_message">You scheduled to watch-</string>
     <string name="cantSave">Can not save</string>
     <string name="pleaseWait">Please Wait</string>
     <string name="addedToDB">Added Successfully</string>
