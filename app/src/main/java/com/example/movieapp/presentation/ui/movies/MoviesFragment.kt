@@ -45,10 +45,11 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
 
     @OptIn(FlowPreview::class)
     private fun initSearchBar() {
-        binding.searchBar.onTextChangedListener(MINIMUM_CHARS).debounce(1000).onEach {
-            val text = binding.searchBar.text.toString()
-            requestMovies(text)
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        binding.searchBar.onTextChangedListener(MINIMUM_CHARS).debounce(SEARCH_DEBOUNCE_MILLIS)
+            .onEach {
+                val text = binding.searchBar.text.toString()
+                requestMovies(text)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun initActorsRecyclerView() {
@@ -86,5 +87,6 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
 
     companion object {
         private const val MINIMUM_CHARS = 4
+        private const val SEARCH_DEBOUNCE_MILLIS = 1000L
     }
 }

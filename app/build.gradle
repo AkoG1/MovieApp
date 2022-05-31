@@ -8,6 +8,10 @@ plugins {
 android {
     compileSdk 32
 
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+    }
+
     defaultConfig {
         applicationId "com.example.movieapp"
         minSdk 21
@@ -18,7 +22,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
 
@@ -41,6 +45,9 @@ android {
 }
 
 dependencies {
+    //coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
+
     //youtubeVideo
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:11.0.1'
 
