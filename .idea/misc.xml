@@ -31,10 +31,18 @@
         <entry key="..\:/Users/AKO/AndroidStudioProjects/MovieApp/app/src/main/res/layout/movies_recycler_item.xml" value="0.5" />
         <entry key="..\:/Users/AKO/AndroidStudioProjects/MovieApp/app/src/main/res/layout/schedule_notification_dialog_fragment.xml" value="0.22804054054054054" />
         <entry key="..\:/Users/AKO/AndroidStudioProjects/MovieApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3515625" />
+        <entry key="..\:/Users/Ako/StudioProjects/MovieAppp/app/src/main/res/drawable/delete_button_background.xml" value="0.129" />
+        <entry key="..\:/Users/Ako/StudioProjects/MovieAppp/app/src/main/res/drawable/ic_runtime.xml" value="0.285" />
+        <entry key="..\:/Users/Ako/StudioProjects/MovieAppp/app/src/main/res/drawable/save_button_background.xml" value="0.1" />
+        <entry key="..\:/Users/Ako/StudioProjects/MovieAppp/app/src/main/res/drawable/watch_later_button_shape.xml" value="0.1" />
+        <entry key="..\:/Users/Ako/StudioProjects/MovieAppp/app/src/main/res/layout/fragment_favorites.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Ako/StudioProjects/MovieAppp/app/src/main/res/layout/fragment_movies.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Ako/StudioProjects/MovieAppp/app/src/main/res/layout/movie_details_fragment.xml" value="0.13240740740740742" />
+        <entry key="..\:/Users/Ako/StudioProjects/MovieAppp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

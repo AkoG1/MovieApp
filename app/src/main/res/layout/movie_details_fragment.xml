@@ -67,7 +67,7 @@
             android:maxWidth="100dp"
             android:layout_height="20dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/save_button_background"
+            android:background="@drawable/watch_later_button_shape"
             android:text="@string/watchLater"
             android:textColor="@color/white"
             android:textSize="11sp"

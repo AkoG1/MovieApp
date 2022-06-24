@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.ui.favorites
 
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -30,14 +31,17 @@ class FavoritesFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.favoriteMovies.collect {
-                    adapter.setData(it)
+                    if (it.isNotEmpty())
+                        adapter.setData(it)
+                    else
+                        binding.nothingToSHow.isVisible = true
                 }
             }
         }
     }
 
     private fun initRecyclerView() {
-        binding.favoriteRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.favoriteRecyclerView.layoutManager = GridLayoutManager(requireContext(), SPAN_COUNT)
         adapter = SavedMoviesAdapter(::onRemoveClicked, ::onClicked)
         binding.favoriteRecyclerView.adapter = adapter
     }
@@ -52,6 +56,10 @@ class FavoritesFragment :
                 movieEntity.imdbID
             )
         findNavController().navigate(action)
+    }
+
+    companion object {
+        private const val SPAN_COUNT = 2
     }
 
 }

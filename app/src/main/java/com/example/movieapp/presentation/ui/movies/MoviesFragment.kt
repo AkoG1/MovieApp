@@ -1,16 +1,15 @@
 package com.example.movieapp.presentation.ui.movies
 
-import android.util.Log
-import androidx.core.widget.addTextChangedListener
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentMoviesBinding
-import com.example.movieapp.presentation.base.BaseFragment
-import com.example.movieapp.presentation.ui.movies.adapter.SearchedMoviesAdapter
 import com.example.movieapp.domain.utils.Resource
+import com.example.movieapp.presentation.base.BaseFragment
 import com.example.movieapp.presentation.extensions.onTextChangedListener
+import com.example.movieapp.presentation.ui.movies.adapter.SearchedMoviesAdapter
 import com.example.movieapp.presentation.ui.movies.vm.MoviesViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
@@ -66,10 +65,12 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding>(FragmentMoviesBinding
         viewModel.searchedMovies.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
+                    binding.movieIcon.isVisible = false
                     adapter.setData(it.data)
                     binding.swipeRefresh.isRefreshing = false
                 }
                 is Resource.Error -> {
+                    binding.movieIcon.isVisible = false
                     binding.swipeRefresh.isRefreshing = false
                 }
                 is Resource.Loading -> {

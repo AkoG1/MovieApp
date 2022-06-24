@@ -31,4 +31,5 @@
     <string name="actorsNotAvailable">Actor list is not available</string>
     <string name="genresNotAvailable">Genre list is not available</string>
     <string name="detailsNotAvailable">Details are not available</string>
+    <string name="nothing_to_show_yet">Nothing To Show Yet</string>
 </resources>
